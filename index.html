@@ -2,1192 +2,940 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>🍳 머지 키친 · Merge Kitchen</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<title>🌱 텃밭 키친 · Garden Kitchen</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body {
-  font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Segoe UI', sans-serif;
-  background: #1a0e00;
-  color: #f0e0c0;
-  min-height: 100vh;
-  overflow-x: hidden;
-  user-select: none;
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#080e04;--s1:#0f1a08;--s2:#162008;--s3:#1e2c0c;
+  --bdr:#2a3e10;--pri:#7ec832;--sec:#f07020;
+  --gold:#ffd700;--grn:#22dd66;--blu:#44aaff;
+  --txt:#e8f0d0;--txt2:#6a8a40;--r:13px
 }
+body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
+  background:var(--bg);color:var(--txt);min-height:100vh;overflow-x:hidden;user-select:none}
 
-/* ── HEADER ── */
-.header {
-  background: linear-gradient(135deg, #2a1200 0%, #3d1f00 100%);
-  padding: 10px 14px 8px;
-  border-bottom: 2px solid #c87000;
-  position: sticky; top: 0; z-index: 100;
-}
-.header-top {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 8px;
-}
-.title { font-size: 1.25em; font-weight: 900; color: #ffaa00; letter-spacing: -0.5px; }
-.title span { color: #fff; font-weight: 400; font-size: 0.7em; margin-left: 4px; }
-.lang-btn {
-  background: #3d1f00; border: 1px solid #c87000; color: #ffaa00;
-  padding: 4px 10px; border-radius: 12px; cursor: pointer; font-size: 0.8em;
-  font-weight: bold; transition: background 0.2s;
-}
-.lang-btn:hover { background: #5a2e00; }
-.stats-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-.stat { display: flex; align-items: center; gap: 4px; font-size: 0.85em; }
-.stat-val { font-weight: 900; color: #ffd700; }
-.xp-wrap { flex: 1; min-width: 100px; display: flex; align-items: center; gap: 6px; }
-.xp-track {
-  flex: 1; background: #1a0a00; height: 10px; border-radius: 5px;
-  overflow: hidden; border: 1px solid #4a2800;
-}
-.xp-fill {
-  height: 100%; background: linear-gradient(90deg, #00bb55, #00ff77);
-  border-radius: 5px; transition: width 0.5s ease;
-}
-.lv-badge {
-  background: linear-gradient(135deg, #c87000, #ffaa00);
-  color: #1a0a00; font-size: 0.75em; font-weight: 900;
-  padding: 2px 7px; border-radius: 8px; white-space: nowrap;
-}
+/* ══ HEADER ══ */
+.hdr{background:linear-gradient(160deg,#0a1405,#142008);padding:10px 13px 8px;
+  border-bottom:2px solid #4a7818;position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 20px rgba(60,120,10,.3)}
+.hdr1{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.gtit{font-size:1.2em;font-weight:900;color:var(--pri);letter-spacing:-.3px}
+.gtit em{font-size:.67em;font-weight:400;font-style:normal;color:var(--txt2);margin-left:4px}
+.lbtn{background:var(--s3);border:1px solid var(--pri);color:var(--pri);
+  padding:3px 9px;border-radius:9px;cursor:pointer;font-size:.77em;font-weight:700}
+.hdr2{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.hcoin{display:flex;align-items:center;gap:3px;font-size:.84em;font-weight:700;color:var(--gold)}
+.xpg{flex:1;min-width:90px;display:flex;align-items:center;gap:5px}
+.xpbg{flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;border:1px solid var(--bdr)}
+.xpf{height:100%;background:linear-gradient(90deg,#20aa44,#50ff80);border-radius:4px;transition:width .5s}
+.xpt{font-size:.64em;color:var(--txt2);white-space:nowrap}
+.lvc{background:linear-gradient(135deg,#3a7818,#7ec832);color:#fff;
+  font-size:.7em;font-weight:900;padding:2px 7px;border-radius:7px;white-space:nowrap}
+.enc{display:flex;align-items:center;gap:3px;font-size:.78em;font-weight:700;color:#88ddff}
+.etm{font-size:.6em;color:#3a99cc}
 
-/* ── TABS ── */
-.tabs {
-  display: flex; background: #2a1200;
-  border-bottom: 1px solid #3d1f00;
-  position: sticky; top: 68px; z-index: 99;
-}
-.tab {
-  flex: 1; padding: 11px 4px; text-align: center; cursor: pointer;
-  font-size: 0.78em; color: #7a5030; border-bottom: 3px solid transparent;
-  transition: all 0.2s; line-height: 1.3;
-}
-.tab .tab-icon { font-size: 1.3em; display: block; }
-.tab.active { color: #ffaa00; border-bottom-color: #ffaa00; background: #1a0e00; }
-.tab:hover:not(.active) { color: #c08050; background: #321800; }
+/* ══ TABS ══ */
+.tabs{display:flex;background:var(--s1);border-bottom:1px solid var(--bdr);
+  position:sticky;top:65px;z-index:99}
+.tab{flex:1;padding:8px 3px;text-align:center;cursor:pointer;
+  font-size:.68em;color:var(--txt2);border-bottom:3px solid transparent;transition:all .2s}
+.tico{font-size:1.3em;display:block}
+.tab.on{color:var(--pri);border-bottom-color:var(--pri);background:var(--bg)}
+.tab:hover:not(.on){color:var(--txt);background:var(--s2)}
 
-/* ── CONTENT ── */
-.content { padding: 12px; max-width: 580px; margin: 0 auto; padding-bottom: 30px; }
-.panel { display: none; }
-.panel.active { display: block; }
+/* ══ CONTENT ══ */
+.wrap{padding:10px;max-width:580px;margin:0 auto;padding-bottom:28px}
+.pane{display:none}.pane.on{display:block}
 
-/* ── MERGE BOARD ── */
-.board-top {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 10px; gap: 8px;
-}
-.board-hint { font-size: 0.75em; color: #7a5030; }
-.spawn-btn {
-  background: linear-gradient(135deg, #e05500, #ff7700);
-  border: none; color: #fff; padding: 9px 18px; border-radius: 18px;
-  cursor: pointer; font-size: 0.9em; font-weight: 900;
-  box-shadow: 0 3px 12px rgba(230,85,0,0.45);
-  transition: transform 0.12s, box-shadow 0.12s; white-space: nowrap;
-}
-.spawn-btn:hover { transform: scale(1.04); box-shadow: 0 5px 16px rgba(230,85,0,0.6); }
-.spawn-btn:active { transform: scale(0.95); }
+/* ══ MISSION BANNER ══ */
+.mban{background:linear-gradient(135deg,var(--s2),#243010);
+  border:1.5px solid #3a5818;border-radius:var(--r);
+  padding:10px 12px;margin-bottom:9px;display:flex;gap:9px;align-items:flex-start}
+.mchar{font-size:2.2em;line-height:1;flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}
+.mbody{flex:1;min-width:0}
+.mep{font-size:.64em;color:var(--txt2);margin-bottom:1px;font-weight:700}
+.mq{font-size:.81em;font-style:italic;color:var(--txt);line-height:1.4;margin-bottom:6px}
+.mos{display:flex;flex-direction:column;gap:4px}
+.mo{display:flex;align-items:center;gap:5px;font-size:.75em;
+  background:rgba(0,0,0,.3);border-radius:6px;padding:4px 8px}
+.mobg{flex:1;height:5px;background:var(--bg);border-radius:3px;overflow:hidden}
+.mof{height:100%;background:linear-gradient(90deg,var(--sec),var(--gold));
+  border-radius:3px;transition:width .4s}
+.mo.dk .mof{background:linear-gradient(90deg,#009933,var(--grn))}
+.mot{font-size:.72em;color:var(--txt2);white-space:nowrap;min-width:30px;text-align:right}
+.mo.dk .mot{color:var(--grn)}
 
-.board {
-  display: grid; grid-template-columns: repeat(5, 1fr);
-  gap: 5px; background: #2a1200; padding: 8px;
-  border-radius: 16px; border: 2px solid #4a2800;
-}
-.cell {
-  aspect-ratio: 1; background: #1a0a00; border-radius: 10px;
-  border: 2px solid #3a1800; display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  cursor: pointer; transition: border-color 0.15s, background 0.15s;
-  position: relative; overflow: hidden; touch-action: manipulation;
-}
-.cell:hover { border-color: #6a3a18; background: #221000; }
-.cell.selected {
-  border-color: #ffaa00; background: #3a1800;
-  animation: sel-pulse 0.9s infinite;
-}
-@keyframes sel-pulse {
-  0%,100% { box-shadow: 0 0 10px rgba(255,170,0,0.5); }
-  50%      { box-shadow: 0 0 18px rgba(255,170,0,0.85); }
-}
-@keyframes pop-in {
-  0%   { transform: scale(0.2); opacity: 0; }
-  65%  { transform: scale(1.25); }
-  100% { transform: scale(1); opacity: 1; }
-}
-@keyframes merge-flash {
-  0%   { transform: scale(0.3) rotate(-15deg); opacity: 0; }
-  60%  { transform: scale(1.3) rotate(5deg); }
-  100% { transform: scale(1) rotate(0deg); opacity: 1; }
-}
-.cell-emoji { font-size: 1.75em; line-height: 1; }
-.cell-name { font-size: 0.5em; color: #9a7050; margin-top: 1px; text-align: center; }
-.cell.popping  .cell-emoji { animation: pop-in 0.35s ease; }
-.cell.merging  .cell-emoji { animation: merge-flash 0.4s ease; }
-.tier-pip {
-  position: absolute; top: 3px; right: 3px;
-  background: rgba(0,0,0,0.55); color: #ffd700;
-  font-size: 0.48em; padding: 1px 4px; border-radius: 4px; font-weight: 900;
-}
+/* ══ BOARD ══ */
+.btop{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.btip{font-size:.67em;color:var(--txt2)}
+.sbtn{background:linear-gradient(135deg,#2a6010,#5aaa20);border:none;color:#fff;
+  padding:8px 14px;border-radius:15px;cursor:pointer;font-size:.86em;font-weight:900;
+  box-shadow:0 3px 10px rgba(50,140,10,.4);transition:transform .12s,opacity .15s;
+  white-space:nowrap;display:flex;align-items:center;gap:5px}
+.sbtn:hover{transform:scale(1.04)}.sbtn:active{transform:scale(.93)}
+.sbtn:disabled{opacity:.35;cursor:not-allowed;transform:none}
 
-/* legend */
-.legend {
-  margin-top: 9px; background: #2a1200; border-radius: 10px;
-  padding: 8px 10px; border: 1px solid #3a1800;
-}
-.legend-title { font-size: 0.7em; color: #7a5030; margin-bottom: 5px; }
-.legend-row { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 0.72em; }
-.leg-item { display: flex; align-items: center; gap: 3px; }
-.leg-arrow { color: #ffaa00; font-weight: 900; padding: 0 2px; }
+/* GRID — wooden board look */
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:9px;
+  background:
+    repeating-linear-gradient(90deg,transparent,transparent 38px,rgba(0,0,0,.07) 38px,rgba(0,0,0,.07) 40px),
+    repeating-linear-gradient(180deg,transparent,transparent 20px,rgba(0,0,0,.04) 20px,rgba(0,0,0,.04) 22px),
+    linear-gradient(160deg,#3a2008,#251208);
+  border-radius:18px;border:5px solid #5a3010;
+  box-shadow:0 8px 24px rgba(0,0,0,.6),inset 0 2px 4px rgba(255,150,50,.08)}
 
-/* ── RESTAURANT CANVAS ── */
-.restaurant-wrap { position: relative; }
-#restaurantCanvas {
-  width: 100%; max-width: 556px; border-radius: 14px;
-  border: 2px solid #4a2800; display: block; margin: 0 auto;
-}
-.rest-stats {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px;
-}
-.rest-stat {
-  background: #2a1200; border-radius: 8px; padding: 8px 10px;
-  border: 1px solid #3a1800;
-}
-.rest-stat-label { font-size: 0.72em; color: #7a5030; }
-.rest-stat-val { font-size: 0.9em; font-weight: 900; color: #ffd700; }
+/* 3D CELL */
+.cell{aspect-ratio:1;border-radius:14px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;cursor:pointer;
+  position:relative;overflow:visible;touch-action:manipulation;
+  transition:transform .13s,box-shadow .13s;
+  background:var(--s2);
+  box-shadow:0 4px 0 #0a0a06,0 6px 10px rgba(0,0,0,.4),
+    inset 0 1px 2px rgba(255,255,255,.1)}
+.cell:hover{transform:translateY(-3px);
+  box-shadow:0 7px 0 #0a0a06,0 10px 16px rgba(0,0,0,.45),
+    inset 0 1px 2px rgba(255,255,255,.1)}
 
-/* ── QUESTS ── */
-.quest-list { display: flex; flex-direction: column; gap: 8px; }
-.quest-card {
-  background: #2a1200; border-radius: 12px; padding: 12px;
-  border: 2px solid #3a1800; transition: border-color 0.25s;
-}
-.quest-card.done  { border-color: #008833; background: #001a0a; }
-.quest-card.claimed { opacity: 0.45; }
-.quest-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 7px; }
-.quest-name { font-weight: 700; font-size: 0.9em; }
-.quest-rewards { display: flex; gap: 8px; font-size: 0.78em; }
-.rw-c { color: #ffd700; } .rw-x { color: #00ee88; }
-.quest-bar-bg { background: #1a0a00; height: 7px; border-radius: 4px; overflow: hidden; margin-bottom: 4px; }
-.quest-bar-fill {
-  height: 100%; background: linear-gradient(90deg, #e05500, #ffaa00);
-  border-radius: 4px; transition: width 0.4s ease;
-}
-.quest-card.done .quest-bar-fill { background: linear-gradient(90deg, #008833, #00cc55); }
-.quest-prog-txt { font-size: 0.7em; color: #7a5030; }
-.claim-btn {
-  margin-top: 8px; width: 100%;
-  background: linear-gradient(135deg, #007722, #00aa44);
-  border: none; color: #fff; padding: 7px; border-radius: 9px;
-  cursor: pointer; font-size: 0.85em; font-weight: 900;
-  transition: opacity 0.15s;
-}
-.claim-btn:hover { opacity: 0.88; }
+/* Tier-specific 3D faces */
+.cell[data-t="1"]{background:linear-gradient(145deg,#7a8842,#4a5828);--dp:#2a3414}
+.cell[data-t="2"]{background:linear-gradient(145deg,#52aa42,#2e7022);--dp:#104410}
+.cell[data-t="3"]{background:linear-gradient(145deg,#e47c2a,#a04c12);--dp:#5c2c08}
+.cell[data-t="4"]{background:linear-gradient(145deg,#dc3c2c,#9c1c18);--dp:#540e0c}
+.cell[data-t="5"]{background:linear-gradient(145deg,#dcd02a,#9c941a);--dp:#5c560a}
+.cell[data-t="6"]{background:linear-gradient(145deg,#6cbe3a,#3c7e1e);--dp:#1c4c0a}
+.cell[data-t="7"]{background:linear-gradient(145deg,#b47030,#784018);--dp:#442608}
+.cell[data-t="8"]{background:linear-gradient(145deg,#d4a030,#946018);--dp:#543a08}
+.cell[data-t="9"]{background:linear-gradient(145deg,#a060e0,#6030b0);--dp:#2c1468;
+  box-shadow:0 5px 0 #2c1468,0 8px 16px rgba(0,0,0,.5),
+    0 0 18px rgba(160,96,224,.45),inset 0 1px 3px rgba(255,255,255,.3)}
 
-/* ── UPGRADES ── */
-.up-grid { display: flex; flex-direction: column; gap: 10px; }
-.up-card {
-  background: #2a1200; border-radius: 14px; padding: 13px;
-  border: 1px solid #3a1800;
-}
-.up-card-head {
-  display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
-}
-.up-icon { font-size: 1.6em; }
-.up-name { font-weight: 900; font-size: 0.95em; }
-.up-level { font-size: 0.75em; color: #7a5030; }
-.up-dots { display: flex; gap: 5px; margin-bottom: 7px; }
-.up-dot {
-  flex: 1; height: 7px; border-radius: 4px;
-  background: #1a0a00; border: 1px solid #4a2800;
-  transition: all 0.3s;
-}
-.up-dot.lit { background: linear-gradient(90deg, #e05500, #ffd700); border-color: #ffaa00; }
-.up-desc { font-size: 0.78em; color: #9a7050; margin-bottom: 9px; min-height: 16px; }
-.up-btn {
-  width: 100%; border: none; color: #fff; padding: 10px; border-radius: 10px;
-  cursor: pointer; font-size: 0.88em; font-weight: 900; transition: all 0.2s;
-  background: linear-gradient(135deg, #b86a00, #ff9900);
-}
-.up-btn:hover:not(:disabled) { transform: scale(1.02); }
-.up-btn:disabled { background: #2e2520; color: #6a5040; cursor: not-allowed; transform: none; }
-.up-btn.maxed { background: linear-gradient(135deg, #004a22, #007733); }
+.cell[data-t]{
+  box-shadow:0 5px 0 var(--dp),0 7px 12px rgba(0,0,0,.45),
+    inset 0 1px 3px rgba(255,255,255,.3),inset 0 -2px 3px rgba(0,0,0,.2)}
+.cell[data-t]:hover{transform:translateY(-4px);
+  box-shadow:0 9px 0 var(--dp),0 13px 18px rgba(0,0,0,.5),
+    inset 0 1px 3px rgba(255,255,255,.3),inset 0 -2px 3px rgba(0,0,0,.2)}
+.cell.sel{transform:translateY(2px)!important;
+  box-shadow:0 3px 0 var(--dp,#0a0a06),0 4px 8px rgba(0,0,0,.4),
+    0 0 0 3px var(--gold),0 0 22px rgba(255,215,0,.55),
+    inset 0 1px 3px rgba(255,255,255,.3)!important}
 
-/* ── TOAST ── */
-.toast {
-  position: fixed; bottom: 24px; left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: #333; color: #fff; padding: 9px 20px; border-radius: 18px;
-  font-size: 0.88em; z-index: 999; pointer-events: none;
-  transition: transform 0.28s ease, opacity 0.28s;
-  white-space: nowrap; box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-  max-width: 90vw; text-align: center;
-}
-.toast.show { transform: translateX(-50%) translateY(0); }
-.toast.ok   { background: linear-gradient(135deg, #005522, #008844); }
-.toast.err  { background: linear-gradient(135deg, #440000, #880000); }
-.toast.gold { background: linear-gradient(135deg, #553300, #997700); }
+/* Glow for high tiers */
+.cell[data-t="7"]{filter:drop-shadow(0 0 4px rgba(180,112,48,.6))}
+.cell[data-t="8"]{filter:drop-shadow(0 0 7px rgba(212,160,48,.7))}
+.cell[data-t="9"]{filter:drop-shadow(0 0 12px rgba(160,96,224,.8));animation:t9glow 2s infinite}
+@keyframes t9glow{0%,100%{filter:drop-shadow(0 0 12px rgba(160,96,224,.8))}50%{filter:drop-shadow(0 0 22px rgba(200,140,255,1))}}
 
-/* ── LEVEL-UP MODAL ── */
-.modal-bg {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.82); z-index: 500;
-  justify-content: center; align-items: center;
-}
-.modal-bg.show { display: flex; }
-.modal {
-  background: linear-gradient(135deg, #2a1200, #3d1f00);
-  border: 3px solid #ffd700; border-radius: 22px; padding: 30px 28px;
-  text-align: center; animation: modal-pop 0.4s ease;
-  max-width: 300px; width: 90%;
-}
-@keyframes modal-pop {
-  0%   { transform: scale(0.4) rotate(-8deg); opacity: 0; }
-  70%  { transform: scale(1.06); }
-  100% { transform: scale(1); opacity: 1; }
-}
-.modal-emoji { font-size: 3.2em; margin-bottom: 10px; }
-.modal-title { font-size: 1.7em; font-weight: 900; color: #ffd700; margin-bottom: 6px; }
-.modal-sub { color: #c0a080; margin-bottom: 18px; font-size: 0.9em; }
-.modal-btn {
-  background: linear-gradient(135deg, #b86a00, #ff9900);
-  border: none; color: #fff; padding: 11px 28px; border-radius: 12px;
-  cursor: pointer; font-size: 0.95em; font-weight: 900;
-}
+/* Shine overlay */
+.cell[data-t]::before{content:'';position:absolute;top:0;left:0;right:0;height:44%;
+  background:linear-gradient(180deg,rgba(255,255,255,.18),transparent);
+  border-radius:12px 12px 0 0;pointer-events:none;z-index:1}
+
+/* Item bubble (orb) */
+.ibub{width:64%;aspect-ratio:1;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 36% 30%,rgba(255,255,255,.42),rgba(0,0,0,.18) 72%);
+  box-shadow:0 3px 8px rgba(0,0,0,.45),inset 0 1px 3px rgba(255,255,255,.35);
+  margin-bottom:2px;position:relative;z-index:2}
+.ico{font-size:1.62em;filter:drop-shadow(0 2px 4px rgba(0,0,0,.55))}
+.iname{font-size:.44em;color:rgba(255,255,255,.78);z-index:2;text-align:center;
+  font-weight:600;text-shadow:0 1px 3px rgba(0,0,0,.8)}
+.tdots{display:flex;gap:2px;margin-top:2px;z-index:2}
+.td{width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.22)}
+.td.lit{background:rgba(255,255,255,.88);box-shadow:0 0 3px rgba(255,255,255,.6)}
+
+/* Animations */
+@keyframes pop{0%{transform:scale(.1) rotate(-15deg);opacity:0}65%{transform:scale(1.3) rotate(4deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes mrg{0%{transform:scale(.1);opacity:0}50%{transform:scale(1.45)}100%{transform:scale(1);opacity:1}}
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.cell.ap .ibub{animation:pop .38s cubic-bezier(.2,1.4,.5,1)}
+.cell.am .ibub{animation:mrg .44s cubic-bezier(.2,1.4,.5,1)}
+.cell.as{animation:shk .3s ease}
+
+/* Particles */
+.pt{position:fixed;border-radius:50%;pointer-events:none;z-index:999;
+  animation:ptf .6s ease-out forwards}
+@keyframes ptf{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+
+/* Legend */
+.leg{margin-top:8px;background:var(--s1);border-radius:10px;
+  padding:7px 10px;border:1px solid var(--bdr)}
+.legtit{font-size:.65em;color:var(--txt2);margin-bottom:5px;font-weight:700}
+.legrow{display:flex;flex-wrap:wrap;gap:3px;align-items:center}
+.legit{display:flex;align-items:center;gap:2px;font-size:.66em;
+  background:var(--s2);padding:2px 6px;border-radius:6px}
+.legarr{color:var(--pri);font-weight:900;font-size:.9em;padding:0 1px}
+
+/* ══ STORY ══ */
+.epl{display:flex;flex-direction:column;gap:9px}
+.epc{background:var(--s1);border-radius:14px;padding:12px;border:2px solid var(--bdr);transition:border-color .2s}
+.epc.curr{border-color:var(--pri)}
+.epc.done{border-color:#2a6614;background:#041208}
+.epc.lock{opacity:.38;pointer-events:none}
+.eph{display:flex;gap:9px;align-items:center;margin-bottom:8px}
+.epch{font-size:2.2em;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}
+.eptb{flex:1}
+.epn{font-size:.62em;color:var(--txt2);font-weight:700}
+.ept{font-size:.88em;font-weight:700}
+.epbdg{font-size:.7em;font-weight:700}
+.bc{color:var(--pri)}.bd{color:var(--grn)}.bl{color:var(--txt2)}
+.epq{font-size:.78em;font-style:italic;color:var(--txt);
+  background:rgba(0,0,0,.32);border-left:3px solid var(--pri);
+  padding:6px 10px;border-radius:0 8px 8px 0;margin-bottom:8px;line-height:1.5}
+.epc.done .epq{border-left-color:var(--grn)}
+.epos{display:flex;flex-direction:column;gap:5px}
+.epo{display:flex;align-items:center;gap:7px;font-size:.77em;
+  background:rgba(0,0,0,.24);border-radius:7px;padding:5px 9px}
+.epoi{font-size:1.05em}.epod{flex:1}
+.epobb{width:70px;height:5px;background:var(--bg);border-radius:3px;overflow:hidden}
+.epob{height:100%;background:linear-gradient(90deg,var(--sec),var(--gold));border-radius:3px;transition:width .4s}
+.epo.dk .epob{background:linear-gradient(90deg,#009933,var(--grn))}
+.epoc{font-size:.71em;color:var(--txt2);white-space:nowrap;min-width:30px;text-align:right}
+.epo.dk .epoc{color:var(--grn)}
+.eprw{margin-top:7px;font-size:.71em;color:var(--txt2)}
+.epcl{margin-top:9px;width:100%;background:linear-gradient(135deg,#1a5a10,#3a9920);
+  border:none;color:#fff;padding:8px;border-radius:9px;cursor:pointer;font-size:.85em;font-weight:900}
+.epcld{margin-top:8px;text-align:center;font-size:.76em;color:var(--grn);font-weight:700}
+
+/* ending */
+.ending{background:linear-gradient(135deg,#0a1a04,#142808);
+  border:3px solid var(--gold);border-radius:18px;padding:22px;
+  text-align:center;margin-bottom:12px;animation:eglw 2s infinite}
+@keyframes eglw{0%,100%{box-shadow:0 0 20px rgba(255,215,0,.3)}50%{box-shadow:0 0 40px rgba(255,215,0,.6)}}
+.endb{font-size:3em}.endtt{font-size:1.4em;font-weight:900;color:var(--gold);margin:8px 0 4px}
+.endsb{color:var(--txt2);font-size:.84em;line-height:1.6}
+
+/* ══ RESTAURANT CANVAS ══ */
+#rc{width:100%;max-width:556px;border-radius:14px;border:2px solid var(--bdr);display:block;margin:0 auto;
+  box-shadow:0 8px 28px rgba(0,0,0,.6)}
+.rst{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px}
+.rs{background:var(--s1);border-radius:8px;padding:8px 10px;border:1px solid var(--bdr)}
+.rsl{font-size:.66em;color:var(--txt2)}.rsv{font-size:.85em;font-weight:700;color:var(--gold)}
+
+/* ══ UPGRADES ══ */
+.upl{display:flex;flex-direction:column;gap:10px}
+.upc{background:var(--s1);border-radius:14px;padding:12px;border:1px solid var(--bdr)}
+.uph{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.upi{font-size:1.6em}.upif{flex:1}
+.upn{font-weight:700;font-size:.9em}.upc2{font-size:.66em;color:var(--txt2)}
+.upds{display:flex;gap:5px;margin-bottom:7px}
+.upd{flex:1;height:7px;border-radius:4px;background:var(--bg);border:1px solid var(--bdr);transition:all .3s}
+.upd.lit{background:linear-gradient(90deg,var(--sec),var(--gold));border-color:var(--pri)}
+.upde{font-size:.72em;color:var(--txt2);margin-bottom:9px}
+.upbtn{width:100%;border:none;color:#fff;padding:10px;border-radius:10px;
+  cursor:pointer;font-size:.83em;font-weight:900;transition:all .2s;
+  background:linear-gradient(135deg,#2a6010,#5aaa20)}
+.upbtn:hover:not(:disabled){transform:scale(1.02)}
+.upbtn:disabled{background:#151e0a;color:#3a4a20;cursor:not-allowed}
+.upbtn.mx{background:linear-gradient(135deg,#1a4a60,#2a80aa)}
+.uplk{font-size:.71em;color:var(--txt2);text-align:center;padding:3px 0}
+
+/* ══ TOAST ══ */
+.toast{position:fixed;bottom:20px;left:50%;
+  transform:translateX(-50%) translateY(65px);
+  padding:9px 18px;border-radius:17px;font-size:.84em;
+  z-index:1000;pointer-events:none;white-space:nowrap;
+  box-shadow:0 4px 18px rgba(0,0,0,.65);transition:transform .26s ease;
+  background:#1a2a0a;max-width:92vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.ok{background:linear-gradient(135deg,#083814,#1a6622)}
+.toast.err{background:linear-gradient(135deg,#3a0000,#770000)}
+.toast.gd{background:linear-gradient(135deg,#3a2800,#886600)}
+
+/* ══ MODAL ══ */
+.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);
+  z-index:500;justify-content:center;align-items:center}
+.mbg.show{display:flex}
+.md{background:linear-gradient(135deg,#0c1a06,#162808);border:3px solid var(--gold);
+  border-radius:22px;padding:26px;text-align:center;animation:mpop .38s ease;
+  max-width:300px;width:90%}
+@keyframes mpop{0%{transform:scale(.35);opacity:0}70%{transform:scale(1.05)}100%{transform:scale(1)}}
+.mi{font-size:3em;margin-bottom:10px}.mt{font-size:1.55em;font-weight:900;color:var(--gold);margin-bottom:5px}
+.ms{color:var(--txt2);margin-bottom:18px;font-size:.85em;line-height:1.5;white-space:pre-line}
+.mb{background:linear-gradient(135deg,#2a6010,#5aaa20);border:none;color:#fff;
+  padding:10px 24px;border-radius:11px;cursor:pointer;font-size:.9em;font-weight:900}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="header-top">
-    <div class="title">🍳 머지 키친 <span>Merge Kitchen</span></div>
-    <button class="lang-btn" onclick="toggleLang()">한/EN</button>
+<div class="hdr">
+  <div class="hdr1">
+    <div class="gtit">🌱 텃밭 키친<em>Garden Kitchen</em></div>
+    <button class="lbtn" onclick="toggleLang()">한/EN</button>
   </div>
-  <div class="stats-bar">
-    <div class="stat">🪙 <span class="stat-val" id="coinVal">50</span></div>
-    <div class="xp-wrap">
-      <div class="xp-track"><div class="xp-fill" id="xpFill" style="width:0%"></div></div>
-      <span id="xpLabel" style="font-size:0.72em;color:#7a5030">0/200 XP</span>
+  <div class="hdr2">
+    <div class="hcoin">🪙<span id="hcoin">0</span></div>
+    <div class="xpg">
+      <div class="xpbg"><div class="xpf" id="xpf" style="width:0%"></div></div>
+      <span class="xpt" id="xpt">0/300</span>
     </div>
-    <div class="lv-badge" id="lvBadge">Lv.1</div>
+    <div class="lvc" id="lvc">Lv.1</div>
+    <div class="enc">⚡<span id="enval">7</span>/7<span class="etm" id="etm"></span></div>
   </div>
 </div>
 
-<!-- TABS -->
 <div class="tabs">
-  <div class="tab active" onclick="switchTab('board')">
-    <span class="tab-icon">🍽️</span>
-    <span id="tab0">머지보드</span>
-  </div>
-  <div class="tab" onclick="switchTab('restaurant')">
-    <span class="tab-icon">🏪</span>
-    <span id="tab1">음식점</span>
-  </div>
-  <div class="tab" onclick="switchTab('quests')">
-    <span class="tab-icon">📋</span>
-    <span id="tab2">퀘스트</span>
-  </div>
-  <div class="tab" onclick="switchTab('upgrades')">
-    <span class="tab-icon">⬆️</span>
-    <span id="tab3">업그레이드</span>
-  </div>
+  <div class="tab on" onclick="goTab('board')"><span class="tico">🌿</span><span id="t0">텃밭</span></div>
+  <div class="tab" onclick="goTab('story')"><span class="tico">📖</span><span id="t1">스토리</span></div>
+  <div class="tab" onclick="goTab('rest')"><span class="tico">🏡</span><span id="t2">음식점</span></div>
+  <div class="tab" onclick="goTab('up')"><span class="tico">⬆️</span><span id="t3">업그레이드</span></div>
 </div>
 
-<!-- CONTENT -->
-<div class="content">
-
-  <!-- MERGE BOARD PANEL -->
-  <div class="panel active" id="panel-board">
-    <div class="board-top">
-      <div class="board-hint" id="boardHint">재료를 선택하고 같은 종류와 합치세요!</div>
-      <button class="spawn-btn" onclick="spawnItem()">
-        🎲 <span id="spawnBtnTxt">재료 받기</span>
+<div class="wrap">
+  <div class="pane on" id="pane-board">
+    <div class="mban" id="mban"></div>
+    <div class="btop">
+      <div class="btip" id="btip">같은 재료 선택 후 합치세요</div>
+      <button class="sbtn" id="sbtn" onclick="doSpawn()">
+        <span>🌱</span><span id="stxt">재료 받기</span><span id="sen" style="font-size:.76em;opacity:.7">⚡1</span>
       </button>
     </div>
-    <div class="board" id="board"></div>
-    <div class="legend">
-      <div class="legend-title" id="legendTitle">머지 체인 · Merge Chain</div>
-      <div class="legend-row" id="legendRow"></div>
-    </div>
+    <div class="grid" id="grid"></div>
+    <div class="leg"><div class="legtit" id="legt">머지 체인</div><div class="legrow" id="legr"></div></div>
   </div>
 
-  <!-- RESTAURANT PANEL -->
-  <div class="panel" id="panel-restaurant">
-    <canvas id="restaurantCanvas" width="556" height="340"></canvas>
-    <div class="rest-stats" id="restStats"></div>
+  <div class="pane" id="pane-story">
+    <div class="epl" id="epl"></div>
   </div>
 
-  <!-- QUESTS PANEL -->
-  <div class="panel" id="panel-quests">
-    <div class="quest-list" id="questList"></div>
+  <div class="pane" id="pane-rest">
+    <canvas id="rc" width="556" height="340"></canvas>
+    <div class="rst" id="rst"></div>
   </div>
 
-  <!-- UPGRADES PANEL -->
-  <div class="panel" id="panel-upgrades">
-    <div class="up-grid" id="upgradeGrid"></div>
+  <div class="pane" id="pane-up">
+    <div class="upl" id="upl"></div>
   </div>
-
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
-
-<!-- LEVEL UP MODAL -->
-<div class="modal-bg" id="modalBg" onclick="closeModal()">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-emoji">🎉</div>
-    <div class="modal-title" id="modalTitle">레벨 업!</div>
-    <div class="modal-sub" id="modalSub">레벨 2 달성!</div>
-    <button class="modal-btn" onclick="closeModal()" id="modalBtn">계속하기</button>
+<div class="mbg" id="mbg" onclick="closeModal()">
+  <div class="md" onclick="event.stopPropagation()">
+    <div class="mi" id="mi">🎉</div>
+    <div class="mt" id="mt">레벨 업!</div>
+    <div class="ms" id="ms"></div>
+    <button class="mb" onclick="closeModal()" id="mb">계속하기</button>
   </div>
 </div>
 
 <script>
 'use strict';
 
-// ── DATA ──────────────────────────────────────────────────────────
+// ── ITEMS (9 tiers) ──────────────────────────────────────────────
 const ITEMS = [
-  { id:1, emoji:'🌾', ko:'밀가루', en:'Flour',      color:'#c8a84b' },
-  { id:2, emoji:'🥚', ko:'달걀',   en:'Egg',        color:'#f5d76e' },
-  { id:3, emoji:'🧈', ko:'버터',   en:'Butter',     color:'#f0b429' },
-  { id:4, emoji:'🍞', ko:'빵',     en:'Bread',      color:'#c8782a' },
-  { id:5, emoji:'🥐', ko:'크루아상',en:'Croissant', color:'#d4882e' },
-  { id:6, emoji:'🎂', ko:'케이크', en:'Cake',       color:'#e94b8a' },
+  {id:1,e:'🌱',ko:'씨앗',    en:'Seed'},
+  {id:2,e:'🌿',ko:'새싹',    en:'Sprout'},
+  {id:3,e:'🥕',ko:'당근',    en:'Carrot'},
+  {id:4,e:'🍅',ko:'토마토',  en:'Tomato'},
+  {id:5,e:'🌽',ko:'옥수수',  en:'Corn'},
+  {id:6,e:'🥗',ko:'샐러드',  en:'Salad'},
+  {id:7,e:'🍲',ko:'채소 스튜',en:'Veggie Stew'},
+  {id:8,e:'🍛',ko:'황금 카레',en:'Golden Curry'},
+  {id:9,e:'👑',ko:'셰프의 걸작',en:"Chef's Masterpiece"},
 ];
-// Merge XP & coin rewards per result tier
-const MERGE_REWARD = [
-  null,
-  null,
-  { xp:5,  coins:2  },  // → Egg
-  { xp:10, coins:5  },  // → Butter
-  { xp:20, coins:10 },  // → Bread
-  { xp:40, coins:20 },  // → Croissant
-  { xp:80, coins:50 },  // → Cake
+const MRW=[null,null,
+  {xp:4, c:2},{xp:8, c:4},{xp:16,c:8},{xp:30,c:15},
+  {xp:60,c:30},{xp:120,c:60},{xp:240,c:120},{xp:480,c:240}
 ];
-const CAKE_BONUS = { xp:200, coins:200 };
-
-const LEVEL_XP = [0, 200, 600, 1200, 2500]; // XP to REACH level index+1
-const LEVEL_NAMES = {
-  ko:['견습생','주니어 셰프','셰프','수석 셰프','마스터 셰프'],
-  en:['Apprentice','Junior Chef','Chef','Head Chef','Master Chef']
+const DOUBLE9={xp:1000,c:600};
+const LV_XP=[0,300,800,1800,3500,6000,10000]; // 7 levels
+const LV_NM={
+  ko:['텃밭 초보','새싹 농부','텃밭 농부','요리 견습생','요리사','수석 셰프','마스터 셰프'],
+  en:['Garden Novice','Sprout Farmer','Garden Farmer','Cook Apprentice','Cook','Head Chef','Master Chef']
 };
+const EN_MAX=7, EN_SEC=90;
 
-const QUESTS = [
-  { id:1, koN:'달걀 5개 만들기',      enN:'Make 5 Eggs',        item:2, count:5,  coins:40,  xp:100 },
-  { id:2, koN:'버터 3개 만들기',      enN:'Make 3 Butter',      item:3, count:3,  coins:80,  xp:200 },
-  { id:3, koN:'빵 3개 만들기',        enN:'Make 3 Bread',       item:4, count:3,  coins:150, xp:400 },
-  { id:4, koN:'크루아상 2개 만들기',  enN:'Make 2 Croissants',  item:5, count:2,  coins:300, xp:700 },
-  { id:5, koN:'케이크 1개 만들기',    enN:'Make 1 Cake',        item:6, count:1,  coins:500, xp:1000},
+// ── GARDEN SPAWN TABLE ─────────────────────────────────────────────
+// garden upgrade level → [T1 weight, T2 weight, T3 weight, T4 weight]
+const G_SPAWN=[[100,0,0,0],[70,25,5,0],[55,30,12,3],[40,35,18,7],[30,35,22,13]];
+
+// ── EPISODES (10 chapters) ─────────────────────────────────────────
+const EPS=[
+  {char:'👩‍🌾',
+   title:{ko:'제1화: 봄의 시작',en:'Ch.1: Spring Begins'},
+   quote:{ko:'"올봄엔 직접 텃밭을 가꿔볼 거야! 씨앗을 심고 새싹을 키워봐요."',
+          en:'"This spring, I\'ll grow my own garden! Let\'s plant seeds and raise sprouts."'},
+   objs:[
+     {i:'🌿',ko:'새싹 5개 만들기',   en:'Make 5 Sprouts',    type:'merge',item:2,need:5},
+     {i:'🥕',ko:'당근 3개 만들기',   en:'Make 3 Carrots',    type:'merge',item:3,need:3},
+   ],rwd:{c:150,xp:100},rt:{ko:'🪙150 + 100XP + 간판 해금',en:'🪙150 + 100XP + Sign unlock'}},
+
+  {char:'🧑‍🌾',
+   title:{ko:'제2화: 첫 수확의 기쁨',en:'Ch.2: First Harvest'},
+   quote:{ko:'"와, 토마토가 새빨갛게 익었어! 이웃들에게 나눠줄까?"',
+          en:'"Wow, the tomatoes are bright red! Shall we share with the neighbors?"'},
+   objs:[
+     {i:'🍅',ko:'토마토 5개 만들기', en:'Make 5 Tomatoes',   type:'merge',item:4,need:5},
+     {i:'🌽',ko:'옥수수 3개 만들기', en:'Make 3 Corn',       type:'merge',item:5,need:3},
+   ],rwd:{c:250,xp:180},rt:{ko:'🪙250 + 180XP + 테이블 해금',en:'🪙250 + 180XP + Table unlock'}},
+
+  {char:'👩‍🍳',
+   title:{ko:'제3화: 주방을 열다',   en:'Ch.3: Open the Kitchen'},
+   quote:{ko:'"텃밭 채소로 직접 요리할 거야! 첫 메뉴는 신선한 샐러드!"',
+          en:'"I\'ll cook with my own veggies! First menu: fresh garden salad!"'},
+   objs:[
+     {i:'🥗',ko:'샐러드 3개 만들기', en:'Make 3 Salads',     type:'merge',item:6,need:3},
+     {i:'🪑',ko:'테이블 업그레이드', en:'Upgrade Table',      type:'upgrade',key:'table',need:1},
+   ],rwd:{c:350,xp:250},rt:{ko:'🪙350 + 250XP + 주방 해금',en:'🪙350 + 250XP + Kitchen unlock'}},
+
+  {char:'👵',
+   title:{ko:'제4화: 첫 손님',       en:'Ch.4: First Customers'},
+   quote:{ko:'"이 동네 텃밭 요리 맛집이라고요? 스튜 한 그릇 주세요!"',
+          en:'"Is this the garden-to-table place? One bowl of stew, please!"'},
+   objs:[
+     {i:'🍲',ko:'채소 스튜 2개 만들기',en:'Make 2 Veggie Stews',type:'merge',item:7,need:2},
+     {i:'⭐',ko:'레벨 3 달성',        en:'Reach Level 3',      type:'level',need:3},
+   ],rwd:{c:500,xp:320},rt:{ko:'🪙500 + 320XP',en:'🪙500 + 320XP'}},
+
+  {char:'📱',
+   title:{ko:'제5화: SNS 화제',      en:'Ch.5: Going Viral'},
+   quote:{ko:'"팔로워 300만! 텃밭 카레가 대박났어요~ 간판 좀 바꿔봐요!"',
+          en:'"3M followers! Your garden curry is blowing up~ Update the sign!"'},
+   objs:[
+     {i:'🍛',ko:'황금 카레 2개 만들기',en:'Make 2 Golden Curries',type:'merge',item:8,need:2},
+     {i:'🪧',ko:'간판 업그레이드',    en:'Upgrade Sign',          type:'upgrade',key:'sign',need:1},
+   ],rwd:{c:650,xp:420},rt:{ko:'🪙650 + 420XP + 인테리어 해금',en:'🪙650 + 420XP + Interior unlock'}},
+
+  {char:'👨‍👩‍👧',
+   title:{ko:'제6화: 가족 방문',     en:'Ch.6: Family Visit'},
+   quote:{ko:'"온 가족이 왔어요! 셰프의 걸작을 선보일 절호의 기회!"',
+          en:'"The whole family came! This is the perfect chance to show your masterpiece!"'},
+   objs:[
+     {i:'👑',ko:'셰프의 걸작 1개 만들기',en:"Make 1 Chef's Masterpiece",type:'merge',item:9,need:1},
+     {i:'👨‍🍳',ko:'주방 업그레이드',  en:'Upgrade Kitchen',      type:'upgrade',key:'kitchen',need:1},
+   ],rwd:{c:850,xp:550},rt:{ko:'🪙850 + 550XP',en:'🪙850 + 550XP'}},
+
+  {char:'🎭',
+   title:{ko:'제7화: 전국 요리 경연', en:'Ch.7: National Contest'},
+   quote:{ko:'"전국 텃밭 요리 대회! 걸작 3개로 우승을 노려봐요!"',
+          en:'"National Garden Cooking Contest! Aim for gold with 3 masterpieces!"'},
+   objs:[
+     {i:'👑',ko:'셰프의 걸작 3개(누적)',en:"3 Masterpieces (total)",type:'merge',item:9,need:3},
+     {i:'⭐',ko:'레벨 5 달성',         en:'Reach Level 5',        type:'level',need:5},
+   ],rwd:{c:1100,xp:700},rt:{ko:'🪙1100 + 700XP',en:'🪙1100 + 700XP'}},
+
+  {char:'📺',
+   title:{ko:'제8화: TV 출연',       en:'Ch.8: TV Appearance'},
+   quote:{ko:'"유명 요리 프로그램 출연 제의! 텃밭 스토리로 전국을 감동시켜봐요."',
+          en:'"Invited to a famous cooking show! Touch the nation with your garden story."'},
+   objs:[
+     {i:'🪙',ko:'코인 5000 모으기(누적)',en:'Earn 5000 coins (total)',type:'coins',need:5000},
+     {i:'🎨',ko:'인테리어 업그레이드', en:'Upgrade Interior',       type:'upgrade',key:'interior',need:1},
+   ],rwd:{c:1300,xp:850},rt:{ko:'🪙1300 + 850XP',en:'🪙1300 + 850XP'}},
+
+  {char:'🎩',
+   title:{ko:'제9화: 미식 평론가',   en:'Ch.9: The Food Critic'},
+   quote:{ko:'"소문의 텃밭 셰프를 만나러 왔소. 걸작 5개를 보여주시오."',
+          en:'"I\'ve come to meet the famous garden chef. Show me 5 masterpieces."'},
+   objs:[
+     {i:'👑',ko:'셰프의 걸작 5개(누적)',en:"5 Masterpieces (total)", type:'merge',item:9,need:5},
+     {i:'⭐',ko:'레벨 6 달성',         en:'Reach Level 6',          type:'level',need:6},
+   ],rwd:{c:1600,xp:1100},rt:{ko:'🪙1600 + 1100XP',en:'🪙1600 + 1100XP'}},
+
+  {char:'⭐',
+   title:{ko:'제10화: 미슐랭 스타!', en:'Ch.10: Michelin Star!'},
+   quote:{ko:'"이 텃밭에서 시작한 요리가 미슐랭 스타를 받는 날이 왔습니다!"',
+          en:'"The day has come when cooking from this garden earns a Michelin Star!"'},
+   objs:[
+     {i:'👑',ko:'셰프의 걸작 10개(누적)',en:"10 Masterpieces (total)",type:'merge',item:9,need:10},
+     {i:'🏡',ko:'모든 업그레이드 2단계+',en:'All upgrades level 2+',  type:'allup',need:2},
+     {i:'👑',ko:'레벨 7 달성',           en:'Reach Level 7',          type:'level',need:7},
+   ],rwd:{c:3000,xp:2000},rt:{ko:'🏆 미슐랭 스타 엔딩!',en:'🏆 Michelin Star Ending!'}},
 ];
 
-const UPGRADES_DEF = [
-  {
-    key:'sign', koN:'간판', enN:'Sign', emoji:'🪧',
-    costs:[100,300,600],
-    descs:{
-      ko:['기본 간판','네온 간판','화려한 조명 간판'],
-      en:['Basic Sign','Neon Sign','Grand Illuminated Sign']
-    }
-  },
-  {
-    key:'table', koN:'테이블', enN:'Table', emoji:'🪑',
-    costs:[150,400,800],
-    descs:{
-      ko:['기본 테이블','고급 테이블','VIP 테이블'],
-      en:['Basic Table','Premium Table','VIP Table']
-    }
-  },
-  {
-    key:'kitchen', koN:'주방', enN:'Kitchen', emoji:'👨‍🍳',
-    costs:[200,500,1000],
-    descs:{
-      ko:['기본 주방','중급 주방','프리미엄 주방'],
-      en:['Basic Kitchen','Advanced Kitchen','Pro Kitchen']
-    }
-  },
-  {
-    key:'interior', koN:'인테리어', enN:'Interior', emoji:'🎨',
-    costs:[250,600,1200],
-    descs:{
-      ko:['기본 인테리어','세련된 인테리어','럭셔리 인테리어'],
-      en:['Basic Interior','Stylish Interior','Luxury Interior']
-    }
-  },
+// ── UPGRADES (5 categories, 4 levels) ──────────────────────────────
+const UPS=[
+  {key:'garden',  ko:'텃밭',     en:'Garden',   e:'🌱',costs:[80,200,450,900],
+   desc:{ko:['새싹 확률 +15%','당근 확률 추가','옥수수 확률 추가','최고급 재료 확률'],
+         en:['+15% Sprout chance','Add Carrot chance','Add Corn chance','Best ingredient chance']}},
+  {key:'sign',    ko:'간판',     en:'Sign',     e:'🪧',costs:[100,250,600,1200],
+   desc:{ko:['네온 간판','화려한 조명 간판','그랜드 일루미네이션','미슐랭 스타 간판'],
+         en:['Neon sign','Lit sign','Grand illumination','Michelin sign']}},
+  {key:'table',   ko:'테이블',   en:'Table',    e:'🪑',costs:[150,350,800,1600],
+   desc:{ko:['고급 테이블','캔들 테이블','VIP 테이블','로얄 테이블'],
+         en:['Premium table','Candle table','VIP table','Royal table']}},
+  {key:'kitchen', ko:'주방',     en:'Kitchen',  e:'👨‍🍳',costs:[200,500,1100,2200],
+   desc:{ko:['중급 주방','프리미엄 주방','마스터 주방','별 셰프 주방'],
+         en:['Advanced kitchen','Premium kitchen','Master kitchen','Star chef kitchen']}},
+  {key:'interior',ko:'인테리어', en:'Interior', e:'🎨',costs:[300,700,1500,3000],
+   desc:{ko:['세련된 인테리어','럭셔리 인테리어','로얄 인테리어','미슐랭 인테리어'],
+         en:['Stylish interior','Luxury interior','Royal interior','Michelin interior']}},
 ];
+// ep needed to unlock (0 = always)
+const UP_UNLOCK={garden:0,sign:1,table:2,kitchen:3,interior:5};
 
-// ── STATE ─────────────────────────────────────────────────────────
-let S = {
-  board: Array(20).fill(null), // item id (1-6) or null
-  coins: 50,
-  xp: 0,
-  level: 1,
-  selected: null,            // cell index or null
-  upgrades: { sign:0, table:0, kitchen:0, interior:0 },
-  questProgress: [0,0,0,0,0],// index = quest index
-  questClaimed:  [false,false,false,false,false],
-  mergedTo: [0,0,0,0,0,0,0], // count merged to item id (index 1-6)
-  lang: 'ko',
-  currentTab: 'board',
+// ── STATE ──────────────────────────────────────────────────────────
+let S={
+  board:Array(20).fill(null),coins:0,xp:0,level:1,
+  sel:null,ups:{garden:0,sign:0,table:0,kitchen:0,interior:0},
+  ep:0,epDone:[],
+  mt:[0,0,0,0,0,0,0,0,0,0], // mergedTo[0..9]
+  tc:0,                       // total coins earned
+  energy:EN_MAX,lastEn:Date.now(),
+  lang:'ko',tab:'board',
 };
+const save=()=>{try{localStorage.setItem('gk3',JSON.stringify(S));}catch(e){}};
+const load=()=>{try{const r=localStorage.getItem('gk3');if(r)Object.assign(S,JSON.parse(r));}catch(e){}};
 
-function saveState() {
-  try { localStorage.setItem('mkState', JSON.stringify(S)); } catch(e) {}
+// ── HELPERS ────────────────────────────────────────────────────────
+const T=(ko,en)=>S.lang==='ko'?ko:en;
+let _tt=null;
+function toast(msg,type='',dur=2300){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.className='toast show '+(type||'');
+  if(_tt)clearTimeout(_tt);_tt=setTimeout(()=>el.className='toast',dur);
 }
-function loadState() {
-  try {
-    const raw = localStorage.getItem('mkState');
-    if (raw) {
-      const saved = JSON.parse(raw);
-      Object.assign(S, saved);
-    }
-  } catch(e) {}
+function showModal(ico,title,sub){
+  document.getElementById('mi').textContent=ico;
+  document.getElementById('mt').textContent=title;
+  document.getElementById('ms').textContent=sub;
+  document.getElementById('mb').textContent=T('계속하기','Continue');
+  document.getElementById('mbg').classList.add('show');
 }
+function closeModal(){document.getElementById('mbg').classList.remove('show');}
 
-// ── HELPERS ───────────────────────────────────────────────────────
-const T = (ko, en) => S.lang === 'ko' ? ko : en;
+// ── ENERGY ─────────────────────────────────────────────────────────
+function regenEn(){
+  if(S.energy>=EN_MAX)return;
+  const g=Math.floor((Date.now()-S.lastEn)/1000/EN_SEC);
+  if(g>0){S.energy=Math.min(EN_MAX,S.energy+g);S.lastEn+=g*EN_SEC*1000;save();}
+}
+function renderEn(){
+  document.getElementById('enval').textContent=S.energy;
+  const rem=S.energy>=EN_MAX?0:Math.max(0,EN_SEC-Math.floor((Date.now()-S.lastEn)/1000)%EN_SEC);
+  document.getElementById('etm').textContent=S.energy<EN_MAX?` ${Math.floor(rem/60)}:${String(rem%60).padStart(2,'0')}`:'';
+  document.getElementById('sbtn').disabled=S.energy<=0;
+}
+setInterval(()=>{regenEn();renderEn();},1000);
 
-let toastTimer = null;
-function showToast(msg, type='', dur=2200) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast show ' + type;
-  if (toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { el.className = 'toast'; }, dur);
-}
-
-function showModal(title, sub) {
-  document.getElementById('modalTitle').textContent = title;
-  document.getElementById('modalSub').textContent = sub;
-  document.getElementById('modalBtn').textContent = T('계속하기','Continue');
-  document.getElementById('modalBg').classList.add('show');
-}
-function closeModal() {
-  document.getElementById('modalBg').classList.remove('show');
-}
-
-// ── COINS / XP ────────────────────────────────────────────────────
-function addCoins(n) {
-  S.coins += n;
-  document.getElementById('coinVal').textContent = S.coins;
-}
-function spendCoins(n) {
-  if (S.coins < n) return false;
-  S.coins -= n;
-  document.getElementById('coinVal').textContent = S.coins;
-  return true;
-}
-
-function addXP(n) {
-  if (S.level >= 5) return;
-  S.xp += n;
-  checkLevelUp();
-  renderXPBar();
-}
-function checkLevelUp() {
-  while (S.level < 5 && S.xp >= LEVEL_XP[S.level]) {
+// ── COINS / XP ─────────────────────────────────────────────────────
+function addC(n){S.coins+=n;S.tc+=n;document.getElementById('hcoin').textContent=S.coins;checkEp();}
+function spendC(n){if(S.coins<n)return false;S.coins-=n;document.getElementById('hcoin').textContent=S.coins;return true;}
+function addXP(n){
+  if(S.level>=7)return;S.xp+=n;
+  while(S.level<7&&S.xp>=LV_XP[S.level]){
     S.level++;
-    showModal(
-      T('레벨 업! 🎉', 'Level Up! 🎉'),
-      T(`${S.level}레벨 달성! (${LEVEL_NAMES.ko[S.level-1]})`,
-        `Reached Level ${S.level}! (${LEVEL_NAMES.en[S.level-1]})`)
-    );
-    saveState();
-    renderUpgrades();
-    if (S.currentTab === 'restaurant') drawRestaurant();
+    showModal('🎉',T('레벨 업!','Level Up!'),
+      T(`Lv.${S.level} 달성!\n${LV_NM.ko[S.level-1]}`,`Reached Lv.${S.level}!\n${LV_NM.en[S.level-1]}`));
+    save();if(S.tab==='up')renderUps();if(S.tab==='rest')drawRest();
   }
+  renderXP();checkEp();
 }
-function renderXPBar() {
-  const lv = S.level;
-  if (lv >= 5) {
-    document.getElementById('xpFill').style.width = '100%';
-    document.getElementById('xpLabel').textContent = 'MAX';
-    document.getElementById('lvBadge').textContent = `Lv.5 ✨`;
-    return;
+function renderXP(){
+  const lv=S.level;
+  if(lv>=7){
+    document.getElementById('xpf').style.width='100%';
+    document.getElementById('xpt').textContent='MAX';
+    document.getElementById('lvc').textContent='Lv.7 ✨';return;
   }
-  const prev = lv > 1 ? LEVEL_XP[lv-1] : 0;
-  const next = LEVEL_XP[lv];
-  const pct = Math.min(100, ((S.xp - prev) / (next - prev)) * 100);
-  document.getElementById('xpFill').style.width = pct + '%';
-  document.getElementById('xpLabel').textContent = `${S.xp}/${next} XP`;
-  document.getElementById('lvBadge').textContent = `Lv.${lv}`;
+  const prev=lv>1?LV_XP[lv-1]:0,next=LV_XP[lv];
+  document.getElementById('xpf').style.width=Math.min(100,((S.xp-prev)/(next-prev))*100)+'%';
+  document.getElementById('xpt').textContent=`${S.xp}/${next}`;
+  document.getElementById('lvc').textContent=`Lv.${lv}`;
 }
 
-// ── BOARD ─────────────────────────────────────────────────────────
-function emptyIndices() {
-  return S.board.map((v,i) => v===null ? i : -1).filter(i=>i>=0);
+// ── EPISODE LOGIC ──────────────────────────────────────────────────
+function objProg(ep,oi){
+  const o=ep.objs[oi];
+  if(o.type==='merge') return S.mt[o.item]||0;
+  if(o.type==='coins') return S.tc;
+  if(o.type==='upgrade') return S.ups[o.key]||0;
+  if(o.type==='level')  return S.level;
+  if(o.type==='allup')  return Math.min(...Object.values(S.ups));
+  return 0;
 }
-function spawnItem() {
-  const empties = emptyIndices();
-  if (empties.length === 0) {
-    showToast(T('보드가 가득 찼어요! 합치거나 이동해보세요.','Board is full! Merge or move items.'), 'err');
-    return;
-  }
-  const idx = empties[Math.floor(Math.random() * empties.length)];
-  S.board[idx] = 1; // always spawn Flour
-  renderCell(idx, true);
-  saveState();
+function epAllDone(ei){return EPS[ei].objs.every((_,i)=>objProg(EPS[ei],i)>=EPS[ei].objs[i].need);}
+function checkEp(){
+  if(S.tab==='board')renderBanner();
+  if(S.tab==='story')renderStory();
 }
 
-function onCellClick(idx) {
-  const item = S.board[idx];
-
-  // nothing selected yet
-  if (S.selected === null) {
-    if (item === null) return; // click empty, nothing selected
-    S.selected = idx;
-    highlightSelected();
-    return;
+// ── PARTICLES ──────────────────────────────────────────────────────
+function particles(el){
+  const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+  const cols=['#ffd700','#ff9900','#ff5500','#fff','#00ff88','#88ddff','#ff88cc'];
+  for(let i=0;i<12;i++){
+    const p=document.createElement('div'),a=Math.random()*Math.PI*2,d=28+Math.random()*48;
+    p.className='pt';
+    p.style.cssText=`left:${cx}px;top:${cy}px;width:${5+Math.random()*6}px;height:${5+Math.random()*6}px;background:${cols[Math.floor(Math.random()*cols.length)]};margin-left:-3px;margin-top:-3px;--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d}px`;
+    document.body.appendChild(p);setTimeout(()=>p.remove(),650);
   }
+}
 
-  // same cell → deselect
-  if (S.selected === idx) {
-    S.selected = null;
-    clearHighlight();
-    return;
+// ── SPAWN ──────────────────────────────────────────────────────────
+function spawnTier(){
+  const gLv=S.ups.garden;
+  const w=G_SPAWN[gLv];
+  const total=w.reduce((a,b)=>a+b,0);
+  let r=Math.random()*total;
+  for(let i=0;i<w.length;i++){r-=w[i];if(r<=0)return i+1;}
+  return 1;
+}
+function doSpawn(){
+  regenEn();
+  if(S.energy<=0){toast(T('에너지 부족! 잠시 기다려주세요.','No energy! Wait a moment.'),'err');return;}
+  const emp=S.board.map((v,i)=>v==null?i:-1).filter(i=>i>=0);
+  if(!emp.length){toast(T('보드가 가득 찼어요! 합쳐서 공간을 만드세요.','Board full! Merge to free space.'),'err');return;}
+  S.energy--;S.lastEn=Date.now();
+  const idx=emp[Math.floor(Math.random()*emp.length)];
+  S.board[idx]=spawnTier();
+  renderCell(idx,'ap');save();renderEn();
+}
+
+// ── BOARD ──────────────────────────────────────────────────────────
+function clickCell(idx){
+  const item=S.board[idx];
+  if(S.sel===null){if(item==null)return;S.sel=idx;applyHL();return;}
+  if(S.sel===idx){S.sel=null;applyHL();return;}
+  const si=S.board[S.sel];
+  if(item==null){
+    S.board[idx]=si;S.board[S.sel]=null;
+    renderCell(S.sel,'');renderCell(idx,'ap');
+    S.sel=null;applyHL();save();return;
   }
-
-  const selItem = S.board[S.selected];
-
-  // click empty cell → move
-  if (item === null) {
-    S.board[idx] = selItem;
-    S.board[S.selected] = null;
-    renderCell(S.selected, false);
-    renderCell(idx, true);
-    S.selected = null;
-    clearHighlight();
-    saveState();
-    return;
-  }
-
-  // same item → merge
-  if (item === selItem) {
-    const newTier = selItem + 1;
-    if (newTier > 6) {
-      // Two cakes merge → big bonus
-      S.board[S.selected] = null;
-      S.board[idx] = null;
-      renderCell(S.selected, false);
-      renderCell(idx, false);
-      S.selected = null;
-      clearHighlight();
-      addCoins(CAKE_BONUS.coins);
-      addXP(CAKE_BONUS.xp);
-      showToast(T(`🎂×2 합치기! +${CAKE_BONUS.coins}🪙 +${CAKE_BONUS.xp}XP`,
-                  `🎂×2 Merged! +${CAKE_BONUS.coins}🪙 +${CAKE_BONUS.xp}XP`), 'gold', 3000);
-      saveState();
-      return;
+  if(item===si){
+    const nxt=si+1,src=S.sel;
+    S.board[src]=null;S.sel=null;
+    if(nxt>9){
+      S.board[idx]=null;renderCell(src,'');renderCell(idx,'');applyHL();
+      addC(DOUBLE9.c);addXP(DOUBLE9.xp);
+      toast(T(`👑×2 합치기! +${DOUBLE9.c}🪙 +${DOUBLE9.xp}XP`,`👑×2 Merged! +${DOUBLE9.c}🪙 +${DOUBLE9.xp}XP`),'gd',3000);
+    } else {
+      S.board[idx]=nxt;S.mt[nxt]=(S.mt[nxt]||0)+1;
+      renderCell(src,'');
+      const cel=renderCell(idx,'am');if(cel)particles(cel);
+      applyHL();
+      const rw=MRW[nxt];
+      if(rw){addC(rw.c);addXP(rw.xp);}
+      toast(T(`${ITEMS[nxt-1].e} ${ITEMS[nxt-1].ko} 완성! +${rw?.c||0}🪙`,
+              `${ITEMS[nxt-1].e} ${ITEMS[nxt-1].en} made! +${rw?.c||0}🪙`),'ok');
+      checkEp();
     }
-    S.board[S.selected] = null;
-    S.board[idx] = newTier;
-    S.mergedTo[newTier]++;
-    renderCell(S.selected, false);
-    const cellEl = renderCell(idx, false);
-    if (cellEl) { cellEl.classList.add('merging'); setTimeout(()=>cellEl.classList.remove('merging'),500); }
-    S.selected = null;
-    clearHighlight();
-
-    // rewards
-    const rw = MERGE_REWARD[newTier];
-    if (rw) {
-      addCoins(rw.coins);
-      addXP(rw.xp);
-      showToast(
-        T(`${ITEMS[newTier-1].emoji} ${ITEMS[newTier-1].ko} 완성! +${rw.coins}🪙 +${rw.xp}XP`,
-          `${ITEMS[newTier-1].emoji} ${ITEMS[newTier-1].en} made! +${rw.coins}🪙 +${rw.xp}XP`),
-        'ok'
-      );
-    }
-
-    updateQuestProgress(newTier);
-    saveState();
-    return;
+    save();return;
   }
-
-  // different item selected → switch selection
-  S.selected = idx;
-  highlightSelected();
+  S.sel=idx;applyHL();
 }
-
-function highlightSelected() {
-  document.querySelectorAll('.cell').forEach((el, i) => {
-    el.classList.toggle('selected', i === S.selected);
-  });
+function applyHL(){
+  document.querySelectorAll('.cell').forEach((el,i)=>el.classList.toggle('sel',i===S.sel));
 }
-function clearHighlight() {
-  document.querySelectorAll('.cell').forEach(el => el.classList.remove('selected'));
-}
-
-function renderCell(idx, animate) {
-  const cells = document.querySelectorAll('.cell');
-  if (!cells[idx]) return null;
-  const el = cells[idx];
-  const item = S.board[idx];
-  if (item === null) {
-    el.innerHTML = '';
-    el.classList.remove('selected');
-  } else {
-    const it = ITEMS[item-1];
-    el.innerHTML = `
-      <div class="cell-emoji">${it.emoji}</div>
-      <div class="cell-name">${S.lang==='ko'?it.ko:it.en}</div>
-      <div class="tier-pip">T${item}</div>`;
-    if (animate) {
-      el.classList.add('popping');
-      setTimeout(() => el.classList.remove('popping'), 400);
-    }
-    if (idx === S.selected) el.classList.add('selected');
-    else el.classList.remove('selected');
+function renderCell(idx,anim){
+  const cells=document.querySelectorAll('.cell');
+  if(!cells[idx])return null;
+  const el=cells[idx],item=S.board[idx];
+  if(item==null){el.innerHTML='';el.removeAttribute('data-t');el.classList.remove('has-item','sel');}
+  else{
+    const it=ITEMS[item-1];
+    const dots=[...Array(9)].map((_,d)=>`<div class="td${d<item?' lit':''}"></div>`).join('');
+    el.setAttribute('data-t',item);el.classList.add('has-item');
+    el.innerHTML=`<div class="ibub"><div class="ico">${it.e}</div></div><div class="iname">${S.lang==='ko'?it.ko:it.en}</div><div class="tdots">${dots}</div>`;
+    if(anim){el.classList.add(anim);setTimeout(()=>el.classList.remove(anim),500);}
+    if(idx===S.sel)el.classList.add('sel');else el.classList.remove('sel');
   }
   return el;
 }
-
-function renderBoard() {
-  const board = document.getElementById('board');
-  board.innerHTML = '';
-  for (let i = 0; i < 20; i++) {
-    const cell = document.createElement('div');
-    cell.className = 'cell';
-    cell.onclick = () => onCellClick(i);
-    board.appendChild(cell);
-    renderCell(i, false);
+function buildGrid(){
+  const g=document.getElementById('grid');g.innerHTML='';
+  for(let i=0;i<20;i++){
+    const c=document.createElement('div');c.className='cell';c.onclick=()=>clickCell(i);
+    g.appendChild(c);renderCell(i,'');
   }
-  renderLegend();
 }
-
-function renderLegend() {
-  const row = document.getElementById('legendRow');
-  row.innerHTML = '';
-  ITEMS.forEach((it, idx) => {
-    const span = document.createElement('span');
-    span.className = 'leg-item';
-    span.textContent = it.emoji + ' ' + (S.lang==='ko'?it.ko:it.en);
-    row.appendChild(span);
-    if (idx < ITEMS.length-1) {
-      const arr = document.createElement('span');
-      arr.className = 'leg-arrow'; arr.textContent = '→';
-      row.appendChild(arr);
-    }
+function renderBanner(){
+  const b=document.getElementById('mban');
+  if(S.ep>=EPS.length){b.style.display='none';return;}
+  b.style.display='flex';
+  const ep=EPS[S.ep];
+  const isDone=epAllDone(S.ep)&&!S.epDone.includes(S.ep);
+  const objs=ep.objs.map((o,i)=>{
+    const pr=Math.min(objProg(ep,i),o.need),pct=Math.min(100,pr/o.need*100),dk=pr>=o.need;
+    return `<div class="mo${dk?' dk':''}"><span>${o.i}</span><span style="flex:1;font-size:.73em">${S.lang==='ko'?o.ko:o.en}</span><div class="mobg"><div class="mof" style="width:${pct}%"></div></div><span class="mot">${pr}/${o.need}</span></div>`;
+  }).join('');
+  b.innerHTML=`<div class="mchar">${ep.char}</div><div class="mbody">
+    <div class="mep">${S.lang==='ko'?ep.title.ko:ep.title.en}</div>
+    <div class="mq">${S.lang==='ko'?ep.quote.ko:ep.quote.en}</div>
+    <div class="mos">${objs}</div>
+    ${isDone?`<button onclick="claimEp()" style="margin-top:7px;width:100%;background:linear-gradient(135deg,#1a5a10,#3a9920);border:none;color:#fff;padding:7px;border-radius:8px;cursor:pointer;font-size:.82em;font-weight:700">${T('보상 받기 🎁','Claim Reward 🎁')}</button>`:''}
+  </div>`;
+}
+function renderLeg(){
+  const r=document.getElementById('legr');r.innerHTML='';
+  ITEMS.forEach((it,i)=>{
+    const s=document.createElement('span');s.className='legit';
+    s.textContent=it.e+' '+(S.lang==='ko'?it.ko:it.en);r.appendChild(s);
+    if(i<ITEMS.length-1){const a=document.createElement('span');a.className='legarr';a.textContent='→';r.appendChild(a);}
   });
 }
 
-// ── QUESTS ────────────────────────────────────────────────────────
-function updateQuestProgress(mergedItemId) {
-  QUESTS.forEach((q, qi) => {
-    if (q.item === mergedItemId && !S.questClaimed[qi]) {
-      S.questProgress[qi] = Math.min(S.questProgress[qi] + 1, q.count);
-    }
-  });
-  renderQuests();
+// ── STORY ──────────────────────────────────────────────────────────
+function claimEp(){
+  if(!epAllDone(S.ep)||S.epDone.includes(S.ep))return;
+  const ep=EPS[S.ep];
+  S.epDone.push(S.ep);
+  addC(ep.rwd.c);addXP(ep.rwd.xp);
+  showModal('🎊',T('에피소드 완료!','Episode Complete!'),
+    T(`${ep.title.ko}\n보상: ${ep.rwd.c}🪙 ${ep.rwd.xp}XP`,`${ep.title.en}\nReward: ${ep.rwd.c}🪙 ${ep.rwd.xp}XP`));
+  if(S.ep<9)S.ep++;
+  save();renderBanner();renderStory();renderUps();
 }
-
-function claimQuest(qi) {
-  const q = QUESTS[qi];
-  if (S.questProgress[qi] < q.count) return;
-  if (S.questClaimed[qi]) return;
-  S.questClaimed[qi] = true;
-  addCoins(q.coins);
-  addXP(q.xp);
-  showToast(T(`퀘스트 완료! +${q.coins}🪙 +${q.xp}XP`, `Quest done! +${q.coins}🪙 +${q.xp}XP`), 'ok', 2800);
-  saveState();
-  renderQuests();
-}
-
-function renderQuests() {
-  const list = document.getElementById('questList');
-  list.innerHTML = '';
-  QUESTS.forEach((q, qi) => {
-    const prog = S.questProgress[qi];
-    const done = prog >= q.count;
-    const claimed = S.questClaimed[qi];
-    const pct = Math.min(100, (prog / q.count) * 100);
-
-    const card = document.createElement('div');
-    card.className = 'quest-card' + (done ? ' done' : '') + (claimed ? ' claimed' : '');
-    card.innerHTML = `
-      <div class="quest-head">
-        <div class="quest-name">${ITEMS[q.item-1].emoji} ${S.lang==='ko'?q.koN:q.enN}</div>
-        <div class="quest-rewards">
-          <span class="rw-c">+${q.coins}🪙</span>
-          <span class="rw-x">+${q.xp}XP</span>
-        </div>
-      </div>
-      <div class="quest-bar-bg"><div class="quest-bar-fill" style="width:${pct}%"></div></div>
-      <div class="quest-prog-txt">${prog} / ${q.count}
-        ${done&&!claimed ? (S.lang==='ko'?' ✅ 완료!':' ✅ Done!') : ''}
-        ${claimed ? (S.lang==='ko'?' 🏆 수령완료':' 🏆 Claimed') : ''}
-      </div>
-      ${done && !claimed ? `<button class="claim-btn" onclick="claimQuest(${qi})">${S.lang==='ko'?'보상 수령':'Claim Reward'}</button>` : ''}
-    `;
-    list.appendChild(card);
+function renderStory(){
+  const el=document.getElementById('epl');el.innerHTML='';
+  if(EPS.every((_,i)=>S.epDone.includes(i))){
+    el.innerHTML=`<div class="ending"><div class="endb">🏆🌟🌱</div>
+      <div class="endtt">${T('미슐랭 스타 달성!','Michelin Star Achieved!')}</div>
+      <div class="endsb">${T('텃밭의 씨앗 하나가\n세계 최고의 음식점이 되었습니다.\n당신은 진정한 마스터 셰프입니다!',
+        'A single seed from the garden\nbecame the world\'s finest restaurant.\nYou are a true Master Chef!')}</div></div>`;
+  }
+  EPS.forEach((ep,ei)=>{
+    const done=S.epDone.includes(ei),curr=S.ep===ei&&!done,locked=ei>S.ep;
+    const cls=done?'done':curr?'curr':'lock';
+    const badge=done?`✅ ${T('완료','Done')}`:curr?`▶ ${T('진행중','In Progress')}`:`🔒 ${T('잠김','Locked')}`;
+    const bcls=done?'bd':curr?'bc':'bl';
+    const objs=ep.objs.map((o,oi)=>{
+      const pr=Math.min(objProg(ep,oi),o.need),pct=Math.min(100,pr/o.need*100),dk=pr>=o.need;
+      return `<div class="epo${dk?' dk':''}"><span class="epoi">${o.i}</span><span class="epod">${S.lang==='ko'?o.ko:o.en}</span><div class="epobb"><div class="epob" style="width:${pct}%"></div></div><span class="epoc">${pr}/${o.need}</span></div>`;
+    }).join('');
+    const claimable=curr&&epAllDone(ei)&&!done;
+    el.innerHTML+=`<div class="epc ${cls}">
+      <div class="eph"><div class="epch">${ep.char}</div><div class="eptb">
+        <div class="epn">${T(`에피소드 ${ei+1}/10`,`Episode ${ei+1}/10`)}</div>
+        <div class="ept">${S.lang==='ko'?ep.title.ko:ep.title.en}</div>
+        <div class="epbdg ${bcls}">${badge}</div>
+      </div></div>
+      <div class="epq">${S.lang==='ko'?ep.quote.ko:ep.quote.en}</div>
+      <div class="epos">${objs}</div>
+      <div class="eprw">${T('보상:','Reward:')} ${S.lang==='ko'?ep.rt.ko:ep.rt.en}</div>
+      ${claimable?`<button class="epcl" onclick="claimEp()">${T('보상 받기 🎁','Claim Reward 🎁')}</button>`:''}
+      ${done?`<div class="epcld">🏆 ${T('완료','Claimed')}</div>`:''}
+    </div>`;
   });
 }
 
-// ── UPGRADES ─────────────────────────────────────────────────────
-function purchaseUpgrade(key) {
-  const def = UPGRADES_DEF.find(u => u.key === key);
-  const cur = S.upgrades[key];
-  if (cur >= 3) return;
-  const cost = def.costs[cur];
-  if (!spendCoins(cost)) {
-    showToast(T(`코인이 부족해요! ${cost}🪙 필요`, `Need ${cost}🪙 coins!`), 'err');
-    return;
-  }
-  S.upgrades[key]++;
-  saveState();
-  renderUpgrades();
-  if (S.currentTab === 'restaurant') drawRestaurant();
-  renderRestStats();
-  showToast(
-    T(`${def.koN} ${S.upgrades[key]}단계 업그레이드!`, `${def.enN} upgraded to level ${S.upgrades[key]}!`),
-    'gold', 2500
-  );
+// ── UPGRADES ───────────────────────────────────────────────────────
+function buyUp(key){
+  const def=UPS.find(u=>u.key===key);
+  const cur=S.ups[key];if(cur>=4)return;
+  const cost=def.costs[cur];
+  if(!spendC(cost)){toast(T(`코인 부족! ${cost}🪙 필요`,`Need ${cost}🪙!`),'err');return;}
+  S.ups[key]++;save();renderUps();
+  if(S.tab==='rest')drawRest();
+  toast(T(`${def.ko} ${S.ups[key]}단계!`,`${def.en} Lv.${S.ups[key]}!`),'gd',2500);
+  checkEp();
 }
-
-function renderUpgrades() {
-  const grid = document.getElementById('upgradeGrid');
-  grid.innerHTML = '';
-  UPGRADES_DEF.forEach(def => {
-    const cur = S.upgrades[def.key];
-    const maxed = cur >= 3;
-    const cost = maxed ? null : def.costs[cur];
-    const canAfford = cost !== null && S.coins >= cost;
-    const desc = maxed
-      ? T('최고 등급 달성! 🏆', 'Max level reached! 🏆')
-      : (S.lang==='ko' ? def.descs.ko[cur] : def.descs.en[cur]);
-
-    const card = document.createElement('div');
-    card.className = 'up-card';
-
-    const dots = [0,1,2].map(i =>
-      `<div class="up-dot${i < cur ? ' lit' : ''}"></div>`
-    ).join('');
-
-    let btnHtml;
-    if (maxed) {
-      btnHtml = `<button class="up-btn maxed" disabled>${T('최고 등급','Max Level')} ✨</button>`;
-    } else {
-      btnHtml = `<button class="up-btn${!canAfford?' ':''}" onclick="purchaseUpgrade('${def.key}')" ${!canAfford?'disabled':''}>
-        ${T('업그레이드','Upgrade')} — ${cost}🪙
-      </button>`;
-    }
-
-    card.innerHTML = `
-      <div class="up-card-head">
-        <div class="up-icon">${def.emoji}</div>
-        <div>
-          <div class="up-name">${S.lang==='ko'?def.koN:def.enN}</div>
-          <div class="up-level">${T('현재','Current')} ${cur}/3</div>
-        </div>
-      </div>
-      <div class="up-dots">${dots}</div>
-      <div class="up-desc">${T('다음 단계','Next')}: ${desc}</div>
-      ${btnHtml}
-    `;
-    grid.appendChild(card);
+function renderUps(){
+  const el=document.getElementById('upl');el.innerHTML='';
+  UPS.forEach(def=>{
+    const cur=S.ups[def.key],mx=cur>=4,unlocked=S.epDone.length>=UP_UNLOCK[def.key];
+    const cost=mx?null:def.costs[cur],canAfford=cost!==null&&S.coins>=cost;
+    const desc=mx?T('최고 등급 달성! 🏆','Max level reached! 🏆'):(S.lang==='ko'?def.desc.ko[cur]:def.desc.en[cur]);
+    const dots=[0,1,2,3].map(i=>`<div class="upd${i<cur?' lit':''}"></div>`).join('');
+    let btn;
+    if(!unlocked){const ne=UP_UNLOCK[def.key];btn=`<div class="uplk">🔒 ${T(`제${ne}화 완료 후 해금`,`Complete Ch.${ne} to unlock`)}</div>`;}
+    else if(mx) btn=`<button class="upbtn mx" disabled>${T('최고 등급 ✨','Max Level ✨')}</button>`;
+    else btn=`<button class="upbtn" onclick="buyUp('${def.key}')" ${canAfford?'':'disabled'}>${T('업그레이드','Upgrade')} — ${cost}🪙</button>`;
+    el.innerHTML+=`<div class="upc"><div class="uph"><div class="upi">${def.e}</div><div class="upif"><div class="upn">${S.lang==='ko'?def.ko:def.en}</div><div class="upc2">${cur}/4</div></div></div><div class="upds">${dots}</div><div class="upde">${T('다음:','Next:')} ${desc}</div>${btn}</div>`;
   });
 }
 
-// ── RESTAURANT CANVAS ─────────────────────────────────────────────
-function drawRestaurant() {
-  const canvas = document.getElementById('restaurantCanvas');
-  const ctx = canvas.getContext('2d');
-  const W = canvas.width, H = canvas.height;
+// ── RESTAURANT CANVAS ──────────────────────────────────────────────
+function drawRest(){
+  const cv=document.getElementById('rc'),ctx=cv.getContext('2d');
+  const W=cv.width,H=cv.height;
+  const sg=S.ups.sign,tb=S.ups.table,kt=S.ups.kitchen,it=S.ups.interior,gd=S.ups.garden;
 
-  const sig = S.upgrades.sign;
-  const tbl = S.upgrades.table;
-  const kit = S.upgrades.kitchen;
-  const itr = S.upgrades.interior;
+  // Sky/background
+  const bgC=[['#0a0e06','#151e0a'],['#0e1628','#1a2444'],['#0a1a36','#142e60'],['#160820','#280840'],['#0a0a18','#181030']];
+  const [b1,b2]=bgC[Math.min(it,4)];
+  const bgr=ctx.createLinearGradient(0,0,0,H);bgr.addColorStop(0,b1);bgr.addColorStop(1,b2);
+  ctx.fillStyle=bgr;ctx.fillRect(0,0,W,H);
 
-  // ── Background ──
-  const bgPalette = [
-    ['#1a0a00','#2d1500'],
-    ['#1a1a30','#2d2050'],
-    ['#0d2240','#1a3a6a'],
-    ['#200030','#3a0060'],
-  ];
-  const [bg1, bg2] = bgPalette[itr];
-  const bg = ctx.createLinearGradient(0, 0, 0, H);
-  bg.addColorStop(0, bg1); bg.addColorStop(1, bg2);
-  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+  // Wall texture
+  if(it>=1){ctx.strokeStyle='rgba(255,255,255,.04)';ctx.lineWidth=1;for(let y=15;y<H*.6;y+=24){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}}
+  if(it>=2){ctx.strokeStyle='rgba(255,255,255,.05)';for(let x=0;x<W;x+=32)for(let y=0;y<H*.6;y+=32){ctx.beginPath();ctx.moveTo(x+16,y);ctx.lineTo(x+32,y+16);ctx.lineTo(x+16,y+32);ctx.lineTo(x,y+16);ctx.closePath();ctx.stroke();}}
 
-  // Wallpaper
-  if (itr >= 1) {
-    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
-    ctx.lineWidth = 1;
-    for (let y = 18; y < H * 0.62; y += 28) {
-      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-    }
-  }
-  if (itr >= 2) {
-    // Diamond wallpaper
-    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
-    for (let x = 0; x < W; x += 36) {
-      for (let y = 0; y < H * 0.62; y += 36) {
-        ctx.beginPath();
-        ctx.moveTo(x + 18, y); ctx.lineTo(x + 36, y + 18);
-        ctx.lineTo(x + 18, y + 36); ctx.lineTo(x, y + 18);
-        ctx.closePath(); ctx.stroke();
-      }
-    }
-  }
+  // Ceiling
+  ctx.fillStyle=['#0c1006','#141020','#0a1430','#120018','#080812'][Math.min(it,4)];ctx.fillRect(0,0,W,12);
 
   // Sconces
-  if (itr >= 2) {
-    [W * 0.18, W * 0.5, W * 0.82].forEach(lx => {
-      const ly = H * 0.22;
-      ctx.fillStyle = 'rgba(255,200,80,0.18)';
-      ctx.beginPath(); ctx.arc(lx, ly, 30, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = itr >= 3 ? '#ffd700' : '#ffbb44';
-      ctx.shadowColor = '#ffd700'; ctx.shadowBlur = 10;
-      ctx.beginPath(); ctx.arc(lx, ly, 5, 0, Math.PI * 2); ctx.fill();
-      ctx.shadowBlur = 0;
-      // sconce body
-      ctx.fillStyle = '#8a6020';
-      ctx.fillRect(lx - 5, ly, 10, 14);
-      ctx.fillRect(lx - 10, ly + 4, 20, 5);
-    });
+  if(it>=2){[W*.15,W*.5,W*.85].forEach(lx=>{
+    ctx.fillStyle='rgba(200,255,150,.18)';ctx.beginPath();ctx.arc(lx,H*.18,28,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=it>=3?'#ccff88':'#88cc44';ctx.shadowColor=it>=3?'#aeff44':'#66cc22';ctx.shadowBlur=12;
+    ctx.beginPath();ctx.arc(lx,H*.18,5,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
+    ctx.fillStyle='#5a3010';ctx.fillRect(lx-5,H*.18,10,14);ctx.fillRect(lx-10,H*.18+4,20,6);
+  });}
+
+  // Chandelier
+  if(it>=3){const cx=W/2;ctx.strokeStyle='#4a3010';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,12);ctx.lineTo(cx,50);ctx.stroke();
+    [-48,0,48].forEach(dx=>{ctx.strokeStyle='#6a4818';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx,50);ctx.lineTo(cx+dx,60);ctx.stroke();
+      ctx.fillStyle='#ddff66';ctx.shadowColor='#bbff00';ctx.shadowBlur=8;ctx.beginPath();ctx.arc(cx+dx,65,5,0,Math.PI*2);ctx.fill();});
+    ctx.shadowBlur=0;ctx.fillStyle='#8a6010';ctx.beginPath();ctx.arc(cx,50,10,0,Math.PI*2);ctx.fill();}
+
+  // ── GARDEN SECTION (left side) ──
+  const gardenW=W*.28,gardenX=0,gardenY=H*.14,gardenH=H*.5;
+  // Garden background
+  ctx.fillStyle=['#1a2a0c','#1e3010','#243814','#2a4018','#304820'][gd];
+  ctx.fillRect(gardenX,gardenY,gardenW,gardenH);
+  ctx.strokeStyle='rgba(0,0,0,.4)';ctx.lineWidth=1;
+  ctx.strokeRect(gardenX,gardenY,gardenW,gardenH);
+
+  // Garden label
+  ctx.fillStyle='rgba(255,255,255,.6)';ctx.font='bold 9px sans-serif';ctx.textAlign='center';
+  ctx.fillText(S.lang==='ko'?'🌱 텃밭':'🌱 Garden',gardenX+gardenW/2,gardenY+14);
+
+  // Garden beds
+  const bedColors=['#3a2010','#4a2a12','#5a3414','#6a3e18','#7a4a1c'];
+  [[10,30,60,18],[10,56,60,18],[10,82,60,18]].forEach(([bx,by,bw,bh])=>{
+    ctx.fillStyle=bedColors[gd];ctx.beginPath();ctx.roundRect(gardenX+bx,gardenY+by,bw,bh,3);ctx.fill();
+  });
+
+  // Plants in garden based on garden level
+  const plantEmojis=['🌱','🌿','🥕','🍅','🌽'];
+  const plantCount=Math.min(gd+1,5);
+  for(let p=0;p<plantCount;p++){
+    const px=gardenX+15+p*(gardenW-20)/Math.max(plantCount-1,1);
+    ctx.font='13px sans-serif';ctx.textAlign='center';
+    ctx.fillText(plantEmojis[Math.min(p,gd)],px,gardenY+48);
   }
 
-  // ── Ceiling ──
-  const ceilColor = ['#1a0a00','#251535','#102040','#1a0028'][itr];
-  ctx.fillStyle = ceilColor;
-  ctx.fillRect(0, 0, W, 12);
+  // Floor
+  const fy=H*.63;
+  ctx.fillStyle=['#2a1808','#3a2210','#50301a','#6a4028','#907050'][Math.min(it,4)];
+  ctx.fillRect(0,fy,W,H-fy);
+  ctx.strokeStyle='rgba(0,0,0,.18)';ctx.lineWidth=1;
+  const ts=it>=2?42:34;
+  for(let x=0;x<W;x+=ts){ctx.beginPath();ctx.moveTo(x,fy);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=fy;y<H;y+=ts){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  ctx.fillStyle=['#1e1006','#2a1808','#3a200e','#503018','#705040'][Math.min(it,4)];
+  ctx.fillRect(0,fy-6,W,6);
 
-  // ── Chandelier (itr 3) ──
-  if (itr >= 3) {
-    const cx = W / 2, cy = 56;
-    ctx.strokeStyle = '#5a4010'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(cx, 12); ctx.lineTo(cx, cy - 14); ctx.stroke();
-    // arms
-    [-50, 0, 50].forEach(dx => {
-      ctx.strokeStyle = '#7a5820'; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + dx, cy + 10); ctx.stroke();
-      ctx.fillStyle = '#ffe060';
-      ctx.shadowColor = '#ffee00'; ctx.shadowBlur = 8;
-      ctx.beginPath(); ctx.arc(cx + dx, cy + 14, 5, 0, Math.PI * 2); ctx.fill();
-    });
-    ctx.shadowBlur = 0;
-    ctx.fillStyle = '#c8881e';
-    ctx.beginPath(); ctx.arc(cx, cy, 10, 0, Math.PI * 2); ctx.fill();
-  }
+  // ── KITCHEN COUNTER ──
+  const kx=gardenW+4,ky=H*.27,kw=W-gardenW-4,kh=H*.13;
+  ctx.fillStyle=['#3a1806','#541e06','#782e10','#a04020','#c06030'][Math.min(kt,4)];
+  ctx.fillRect(kx,ky,kw,kh);
+  ctx.fillStyle=['#6a3010','#8a4018','#b05828','#d07840','#e09858'][Math.min(kt,4)];
+  ctx.fillRect(kx,ky,kw,8);
+  ctx.fillStyle='rgba(0,0,0,.28)';ctx.fillRect(kx+kw*.35,ky+8,kw*.28,kh-8);
 
-  // ── Floor ──
-  const floorPalette = ['#3a1a06','#50280c','#7a4a20','#c8a06a'];
-  ctx.fillStyle = floorPalette[itr];
-  const floorY = H * 0.64;
-  ctx.fillRect(0, floorY, W, H - floorY);
+  if(kt>=1){ctx.fillStyle='#555';ctx.fillRect(kx+12,ky+10,60,26);
+    [[kx+18,ky+17],[kx+24,ky+17],[kx+18,ky+26],[kx+24,ky+26]].forEach(([bx,by])=>{
+      ctx.strokeStyle=kt>=2?'#ff4400':'#bb2200';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(bx,by,5,0,Math.PI*2);ctx.stroke();});}
+  if(kt>=2){ctx.fillStyle='#c0c0c0';ctx.fillRect(kx+kw*.7,ky+3,38,kh-3);
+    ctx.strokeStyle='#888';ctx.lineWidth=1;ctx.strokeRect(kx+kw*.72,ky+6,34,(kh-10)*.45);
+    ctx.strokeRect(kx+kw*.72,ky+6+(kh-10)*.47,34,(kh-10)*.47);}
+  if(kt>=3){ctx.fillStyle='#a8a8a8';ctx.beginPath();ctx.moveTo(kx+8,ky+4);ctx.lineTo(kx+26,ky+4);ctx.lineTo(kx+23,ky-26);ctx.lineTo(kx+11,ky-26);ctx.closePath();ctx.fill();}
+  if(kt>=4){// Extra equipment
+    ctx.fillStyle='#888';ctx.fillRect(kx+76,ky+10,50,26);
+    ctx.fillStyle='#666';ctx.beginPath();ctx.arc(kx+101,ky+23,10,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#444';ctx.beginPath();ctx.arc(kx+101,ky+23,6,0,Math.PI*2);ctx.fill();}
 
-  // Floor tiles
-  ctx.strokeStyle = 'rgba(0,0,0,0.2)'; ctx.lineWidth = 1;
-  const tileSize = itr >= 2 ? 44 : 38;
-  for (let x = 0; x < W; x += tileSize) {
-    ctx.beginPath(); ctx.moveTo(x, floorY); ctx.lineTo(x, H); ctx.stroke();
-  }
-  for (let y = floorY; y < H; y += tileSize) {
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-  }
-
-  // Baseboard
-  const baseColor = ['#2a1204','#3a1e08','#5a3010','#a06030'][itr];
-  ctx.fillStyle = baseColor;
-  ctx.fillRect(0, floorY - 6, W, 6);
-
-  // ── Kitchen Counter ──
-  const kitY = H * 0.28;
-  const kitH = H * 0.12;
-  const counterColors = ['#5c2a08','#7a3a10','#9a5020','#c87030'];
-  ctx.fillStyle = counterColors[kit];
-  ctx.fillRect(0, kitY, W, kitH);
-  // Counter top
-  const topColors = ['#8a4a20','#a06030','#c08040','#e0a860'];
-  ctx.fillStyle = topColors[kit];
-  ctx.fillRect(0, kitY, W, 8);
-
-  // Kitchen window / opening
-  ctx.fillStyle = 'rgba(0,0,0,0.35)';
-  ctx.fillRect(W * 0.4, kitY + 8, W * 0.22, kitH - 8);
-
-  // Stove
-  if (kit >= 1) {
-    ctx.fillStyle = '#555'; ctx.fillRect(W*0.06, kitY+10, 66, 26);
-    const burnerC = kit >= 2 ? '#ff4400' : '#cc2200';
-    [[W*0.09,kitY+18],[W*0.14,kitY+18],[W*0.09,kitY+27],[W*0.14,kitY+27]].forEach(([bx,by])=>{
-      ctx.strokeStyle = burnerC; ctx.lineWidth = 2.5;
-      ctx.beginPath(); ctx.arc(bx, by, 5, 0, Math.PI*2); ctx.stroke();
-    });
-  }
-  // Fridge
-  if (kit >= 2) {
-    ctx.fillStyle = '#c8c8c8'; ctx.fillRect(W*0.75, kitY+4, 38, kitH-4);
-    ctx.strokeStyle = '#888'; ctx.lineWidth = 1;
-    ctx.strokeRect(W*0.77, kitY+6, 34, (kitH-10)*0.45);
-    ctx.strokeRect(W*0.77, kitY+6+(kitH-10)*0.47, 34, (kitH-10)*0.48);
-    ctx.fillStyle = '#777'; ctx.beginPath();
-    ctx.arc(W*0.77+2, kitY+6+(kitH-10)*0.225, 2, 0, Math.PI*2); ctx.fill();
-    ctx.arc(W*0.77+2, kitY+6+(kitH-10)*0.68, 2, 0, Math.PI*2); ctx.fill();
-  }
-  // Hood
-  if (kit >= 3) {
-    ctx.fillStyle = '#b0b0b0';
-    ctx.beginPath();
-    ctx.moveTo(W*0.04, kitY+4); ctx.lineTo(W*0.22, kitY+4);
-    ctx.lineTo(W*0.19, kitY - 28); ctx.lineTo(W*0.07, kitY - 28);
-    ctx.closePath(); ctx.fill();
-    ctx.strokeStyle = '#888'; ctx.lineWidth = 1; ctx.stroke();
-  }
-  // Pots
-  if (kit >= 1) {
-    ctx.fillStyle = '#4a3020';
-    ctx.beginPath(); ctx.arc(W*0.3, kitY+12, 10, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = '#d44400';
-    ctx.fillRect(W*0.3-8, kitY+5, 16, 5);
-    if (kit >= 2) {
-      ctx.fillStyle = '#226040';
-      ctx.beginPath(); ctx.arc(W*0.36, kitY+12, 8, 0, Math.PI*2); ctx.fill();
-    }
-  }
-
-  // ── Tables ──
-  const tableCount = [1,2,3,4][tbl];
-  const gap = W / (tableCount + 1);
-  const tblTopColors = ['#7a3a10','#a05020','#c8782a','#e0a85a'];
-  const clothColors  = [null,'#c03030','#2050a0','#7030a0'];
-  const ty = floorY + 10;
-
-  for (let i = 0; i < tableCount; i++) {
-    const tx = gap * (i + 1);
-
-    // Legs
-    ctx.fillStyle = '#4a2408';
-    ctx.fillRect(tx - 22, ty + 18, 7, 28);
-    ctx.fillRect(tx + 15, ty + 18, 7, 28);
-
-    // Tabletop
-    ctx.fillStyle = tblTopColors[tbl];
-    ctx.beginPath();
-    ctx.roundRect(tx - 26, ty, 52, 18, 3);
-    ctx.fill();
-
-    // Tablecloth
-    if (tbl >= 1 && clothColors[tbl]) {
-      ctx.fillStyle = clothColors[tbl];
-      ctx.globalAlpha = 0.75;
-      ctx.beginPath(); ctx.roundRect(tx - 24, ty+1, 48, 14, 2); ctx.fill();
-      ctx.globalAlpha = 1;
-    }
-
-    // Plate
-    ctx.fillStyle = '#f8f0e0';
-    ctx.beginPath(); ctx.ellipse(tx, ty+8, 9, 6, 0, 0, Math.PI*2); ctx.fill();
-    ctx.fillStyle = '#ff8822';
-    ctx.beginPath(); ctx.ellipse(tx, ty+8, 5, 3, 0, 0, Math.PI*2); ctx.fill();
-
-    // Candle (tbl >= 2)
-    if (tbl >= 2) {
-      ctx.fillStyle = '#f8f0e0';
-      ctx.fillRect(tx + 14, ty - 13, 5, 13);
-      ctx.fillStyle = '#ff8800';
-      ctx.shadowColor = '#ff8800'; ctx.shadowBlur = 6;
-      ctx.beginPath(); ctx.arc(tx + 16.5, ty - 15, 4, 0, Math.PI*2); ctx.fill();
-      ctx.shadowBlur = 0;
-    }
-
-    // Wine glass (tbl 3)
-    if (tbl >= 3) {
-      ctx.strokeStyle = '#ffffff88'; ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(tx - 14, ty - 2); ctx.lineTo(tx - 11, ty + 2);
-      ctx.moveTo(tx - 11, ty + 2); ctx.lineTo(tx - 9, ty + 2);
-      ctx.moveTo(tx - 11.5, ty); ctx.lineTo(tx - 11.5, ty - 6);
-      ctx.stroke();
-      ctx.strokeStyle = '#dd4444aa'; ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.arc(tx - 11.5, ty - 7, 4, 0.4, Math.PI - 0.4); ctx.stroke();
-    }
-
+  // ── TABLES ──
+  const tbCount=[1,2,3,4,4][Math.min(tb,4)],tgap=(W-gardenW)/(tbCount+1),tox=gardenW;
+  const ttopC=['#5a2808','#8a4018','#b05828','#d07840','#e09858'];
+  const clothC=[null,'#a02020','#1830a0','#501880','#801a50'];
+  for(let i=0;i<tbCount;i++){
+    const tx=tox+tgap*(i+1),ty=fy+10;
+    ctx.fillStyle='#321406';ctx.fillRect(tx-22,ty+18,7,28);ctx.fillRect(tx+15,ty+18,7,28);
+    ctx.fillStyle=ttopC[Math.min(tb,4)];ctx.beginPath();ctx.roundRect(tx-26,ty,52,18,3);ctx.fill();
+    if(tb>=1&&clothC[Math.min(tb,4)]){ctx.fillStyle=clothC[Math.min(tb,4)];ctx.globalAlpha=.72;ctx.beginPath();ctx.roundRect(tx-24,ty+1,48,14,2);ctx.fill();ctx.globalAlpha=1;}
+    ctx.fillStyle='#f4eee0';ctx.beginPath();ctx.ellipse(tx,ty+8,9,6,0,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#ff7820';ctx.beginPath();ctx.ellipse(tx,ty+8,5,3,0,0,Math.PI*2);ctx.fill();
+    if(tb>=2){ctx.fillStyle='#f4eee0';ctx.fillRect(tx+13,ty-14,5,14);ctx.fillStyle='#ff8800';ctx.shadowColor='#ff8800';ctx.shadowBlur=7;ctx.beginPath();ctx.arc(tx+15.5,ty-16,4,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;}
+    if(tb>=3){ctx.strokeStyle='rgba(255,255,255,.5)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(tx-13,ty);ctx.lineTo(tx-10,ty+4);ctx.moveTo(tx-11,ty+2);ctx.lineTo(tx-11,ty-7);ctx.stroke();ctx.strokeStyle='#dd4444aa';ctx.lineWidth=2;ctx.beginPath();ctx.arc(tx-11,ty-8,4,.4,Math.PI-.4);ctx.stroke();}
     // Chair
-    ctx.fillStyle = tblTopColors[Math.min(tbl, 2)];
-    ctx.fillRect(tx - 12, ty + 30, 24, 14);
-    ctx.fillRect(tx - 10, ty + 18, 5, 12);
-    ctx.fillRect(tx + 5, ty + 18, 5, 12);
-  }
-
-  // ── Plants (itr >= 1) ──
-  if (itr >= 1) {
-    [[22, H - 22], [W - 22, H - 22]].forEach(([px, py]) => {
-      ctx.fillStyle = '#7a3a10';
-      ctx.beginPath(); ctx.roundRect(px - 7, py - 14, 14, 18, 2); ctx.fill();
-      const gc = itr >= 3 ? '#1a6020' : '#2a5018';
-      ctx.fillStyle = gc;
-      ctx.beginPath(); ctx.arc(px, py - 18, 10, 0, Math.PI*2); ctx.fill();
-      ctx.fillStyle = itr >= 3 ? '#2a8030' : '#3a6820';
-      ctx.beginPath(); ctx.arc(px - 8, py - 22, 7, 0, Math.PI*2); ctx.fill();
-      ctx.beginPath(); ctx.arc(px + 8, py - 22, 7, 0, Math.PI*2); ctx.fill();
-      if (itr >= 2) {
-        ctx.fillStyle = '#4aaa40';
-        ctx.beginPath(); ctx.arc(px, py - 26, 5, 0, Math.PI*2); ctx.fill();
-      }
-    });
-  }
-
-  // ── Sign ──
-  ctx.save();
-  if (sig === 0) {
-    // Plain text on wall
-    ctx.font = 'bold 15px sans-serif'; ctx.textAlign = 'center';
-    ctx.fillStyle = 'rgba(255,255,255,0.4)';
-    ctx.fillText('🍳 MERGE KITCHEN', W / 2, 36);
-  } else if (sig === 1) {
-    // Wooden hanging sign
-    ctx.fillStyle = '#6a3008';
-    ctx.beginPath(); ctx.roundRect(W/2 - 85, 10, 170, 42, 6); ctx.fill();
-    ctx.strokeStyle = '#c87000'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.roundRect(W/2 - 85, 10, 170, 42, 6); ctx.stroke();
-    // Chains
-    ctx.strokeStyle = '#888'; ctx.lineWidth = 1.5;
-    [[W/2-60, 10],[W/2+60, 10]].forEach(([cx2,cy2])=>{
-      ctx.beginPath(); ctx.moveTo(cx2, cy2); ctx.lineTo(cx2, 5); ctx.stroke();
-    });
-    ctx.fillStyle = '#ffe8c0'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText('🍳 머지 키친', W/2, 32);
-    ctx.fillStyle = '#ffaa60'; ctx.font = '10px sans-serif';
-    ctx.fillText('Merge Kitchen', W/2, 46);
-  } else if (sig === 2) {
-    // Neon sign
-    ctx.fillStyle = 'rgba(0,0,0,0.55)';
-    ctx.beginPath(); ctx.roundRect(W/2 - 95, 8, 190, 44, 8); ctx.fill();
-
-    ctx.shadowColor = '#ff6600'; ctx.shadowBlur = 14;
-    ctx.strokeStyle = '#ff6600'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.roundRect(W/2 - 93, 10, 186, 40, 6); ctx.stroke();
-    ctx.shadowBlur = 0;
-
-    ctx.shadowColor = '#ff8800'; ctx.shadowBlur = 10;
-    ctx.fillStyle = '#ff8800'; ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText('🍳 MERGE KITCHEN', W/2, 31);
-    ctx.shadowBlur = 4; ctx.fillStyle = '#ffcc88';
-    ctx.font = '10px sans-serif'; ctx.fillText('머지 키친', W/2, 45);
-    ctx.shadowBlur = 0;
-  } else {
-    // Grand illuminated sign
-    const sgrd = ctx.createLinearGradient(W/2-105, 0, W/2+105, 0);
-    sgrd.addColorStop(0, '#3a0808'); sgrd.addColorStop(0.5, '#600010'); sgrd.addColorStop(1, '#3a0808');
-    ctx.fillStyle = sgrd;
-    ctx.beginPath(); ctx.roundRect(W/2 - 105, 5, 210, 52, 8); ctx.fill();
-
-    ctx.strokeStyle = '#ffd700'; ctx.lineWidth = 2.5;
-    ctx.shadowColor = '#ffd700'; ctx.shadowBlur = 8;
-    ctx.beginPath(); ctx.roundRect(W/2 - 105, 5, 210, 52, 8); ctx.stroke();
-    ctx.shadowBlur = 0;
-
-    // Bulbs
-    for (let bx = W/2 - 94; bx <= W/2 + 94; bx += 18) {
-      ctx.fillStyle = '#ffff88';
-      ctx.shadowColor = '#ffff00'; ctx.shadowBlur = 7;
-      ctx.beginPath(); ctx.arc(bx, 9, 3.5, 0, Math.PI*2); ctx.fill();
-      ctx.beginPath(); ctx.arc(bx, 53, 3.5, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle=ttopC[Math.min(tb,2)];ctx.fillRect(tx-12,ty+30,24,14);ctx.fillRect(tx-10,ty+18,5,12);ctx.fillRect(tx+5,ty+18,5,12);
+    // Customers (based on ep done)
+    if(i<S.epDone.length){
+      const cuy=fy+54;ctx.fillStyle='rgba(255,220,180,.85)';ctx.beginPath();ctx.arc(tx,cuy,7,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='rgba(60,100,200,.7)';ctx.beginPath();ctx.ellipse(tx,cuy+18,7,12,0,0,Math.PI);ctx.fill();
     }
-    ctx.shadowBlur = 0;
-    ctx.fillStyle = '#ffd700'; ctx.font = 'bold 17px sans-serif'; ctx.textAlign = 'center';
-    ctx.fillText('🍳 MERGE KITCHEN', W/2, 31);
-    ctx.fillStyle = '#ffcc88'; ctx.font = '11px sans-serif';
-    ctx.fillText('머지 키친 · Master Restaurant', W/2, 46);
   }
+
+  // Plants/decor
+  if(it>=1){[[14,H-20],[W-14,H-20]].forEach(([px,py])=>{
+    ctx.fillStyle='#5a2808';ctx.beginPath();ctx.roundRect(px-7,py-14,14,18,2);ctx.fill();
+    ctx.fillStyle=it>=3?'#1a5018':'#243e14';ctx.beginPath();ctx.arc(px,py-18,10,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=it>=3?'#267828':'#346020';
+    ctx.beginPath();ctx.arc(px-8,py-22,7,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(px+8,py-22,7,0,Math.PI*2);ctx.fill();
+    if(it>=2){ctx.fillStyle='#3aaa30';ctx.beginPath();ctx.arc(px,py-26,5,0,Math.PI*2);ctx.fill();}
+  });}
+
+  // ── SIGN ──
+  ctx.save();
+  if(sg===0){ctx.font='bold 13px sans-serif';ctx.textAlign='center';ctx.fillStyle='rgba(255,255,255,.3)';ctx.fillText('🌱 GARDEN KITCHEN',W/2,36);}
+  else if(sg===1){
+    ctx.fillStyle='#4a2a08';ctx.beginPath();ctx.roundRect(W/2-88,10,176,42,6);ctx.fill();
+    ctx.strokeStyle='#8ac828';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(W/2-88,10,176,42,6);ctx.stroke();
+    ctx.fillStyle='#e8ffc0';ctx.font='bold 14px sans-serif';ctx.textAlign='center';ctx.fillText('🌱 텃밭 키친',W/2,32);
+    ctx.fillStyle='#aad860';ctx.font='10px sans-serif';ctx.fillText('Garden Kitchen',W/2,46);}
+  else if(sg===2){
+    ctx.fillStyle='rgba(0,0,0,.55)';ctx.beginPath();ctx.roundRect(W/2-96,8,192,44,8);ctx.fill();
+    ctx.shadowColor='#44ff00';ctx.shadowBlur=14;ctx.strokeStyle='#44ff00';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(W/2-94,10,188,40,6);ctx.stroke();ctx.shadowBlur=0;
+    ctx.shadowColor='#88ff44';ctx.shadowBlur=10;ctx.fillStyle='#88ff44';ctx.font='bold 15px sans-serif';ctx.textAlign='center';ctx.fillText('🌱 GARDEN KITCHEN',W/2,31);ctx.shadowBlur=5;ctx.fillStyle='#ccff88';ctx.font='10px sans-serif';ctx.fillText('텃밭 키친',W/2,45);ctx.shadowBlur=0;}
+  else if(sg===3){
+    const sg2=ctx.createLinearGradient(W/2-108,0,W/2+108,0);sg2.addColorStop(0,'#060e02');sg2.addColorStop(.5,'#0e2006');sg2.addColorStop(1,'#060e02');
+    ctx.fillStyle=sg2;ctx.beginPath();ctx.roundRect(W/2-108,5,216,52,8);ctx.fill();
+    ctx.strokeStyle='#aeff44';ctx.lineWidth=2.5;ctx.shadowColor='#88ff22';ctx.shadowBlur=10;ctx.beginPath();ctx.roundRect(W/2-108,5,216,52,8);ctx.stroke();ctx.shadowBlur=0;
+    for(let bx=W/2-98;bx<=W/2+98;bx+=17){ctx.fillStyle='#eeff88';ctx.shadowColor='#ccff00';ctx.shadowBlur=6;ctx.beginPath();ctx.arc(bx,9,3,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(bx,53,3,0,Math.PI*2);ctx.fill();}
+    ctx.shadowBlur=0;ctx.fillStyle='#ccff66';ctx.font='bold 16px sans-serif';ctx.textAlign='center';ctx.fillText('🌱 GARDEN KITCHEN',W/2,31);ctx.fillStyle='#aedd44';ctx.font='11px sans-serif';ctx.fillText('텃밭 키친 · Michelin Starred',W/2,46);}
+  else{// sg 4 — Michelin star
+    const mg=ctx.createLinearGradient(W/2-110,0,W/2+110,0);mg.addColorStop(0,'#100808');mg.addColorStop(.5,'#201200');mg.addColorStop(1,'#100808');
+    ctx.fillStyle=mg;ctx.beginPath();ctx.roundRect(W/2-110,4,220,54,8);ctx.fill();
+    ctx.strokeStyle=S.gold||'#ffd700';ctx.lineWidth=3;ctx.shadowColor='#ffd700';ctx.shadowBlur=12;ctx.beginPath();ctx.roundRect(W/2-110,4,220,54,8);ctx.stroke();ctx.shadowBlur=0;
+    for(let bx=W/2-100;bx<=W/2+100;bx+=16){ctx.fillStyle='#ffff88';ctx.shadowColor='#ffff00';ctx.shadowBlur=6;ctx.beginPath();ctx.arc(bx,8,3,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(bx,54,3,0,Math.PI*2);ctx.fill();}
+    ctx.shadowBlur=0;ctx.fillStyle='#ffd700';ctx.font='bold 16px sans-serif';ctx.textAlign='center';
+    ctx.fillText('⭐ 텃밭 키친 ⭐',W/2,30);ctx.fillStyle='#ffcc88';ctx.font='11px sans-serif';ctx.fillText('Garden Kitchen · Michelin ★★★',W/2,46);}
   ctx.restore();
 
-  // ── Score/level overlay ──
-  ctx.fillStyle = 'rgba(0,0,0,0.45)';
-  ctx.beginPath(); ctx.roundRect(W - 88, H - 30, 82, 22, 6); ctx.fill();
-  ctx.fillStyle = '#ffd700'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'right';
-  ctx.fillText(`Lv.${S.level} · 🪙${S.coins}`, W - 8, H - 14);
+  // HUD
+  ctx.fillStyle='rgba(0,0,0,.45)';ctx.beginPath();ctx.roundRect(W-96,H-28,90,20,5);ctx.fill();
+  ctx.fillStyle='#ffd700';ctx.font='bold 10px sans-serif';ctx.textAlign='right';
+  ctx.fillText(`Lv.${S.level} · 🪙${S.coins}`,W-7,H-13);
 }
-
-function renderRestStats() {
-  const el = document.getElementById('restStats');
-  el.innerHTML = '';
-  const ups = [
-    { ko:'간판', en:'Sign',     emoji:'🪧', key:'sign' },
-    { ko:'테이블', en:'Table',  emoji:'🪑', key:'table' },
-    { ko:'주방', en:'Kitchen',  emoji:'👨‍🍳', key:'kitchen' },
-    { ko:'인테리어', en:'Interior', emoji:'🎨', key:'interior' },
-  ];
-  ups.forEach(u => {
-    const lv = S.upgrades[u.key];
-    const div = document.createElement('div');
-    div.className = 'rest-stat';
-    div.innerHTML = `
-      <div class="rest-stat-label">${u.emoji} ${S.lang==='ko'?u.ko:u.en}</div>
-      <div class="rest-stat-val">
-        ${'★'.repeat(lv)}${'☆'.repeat(3-lv)} ${lv}/3
-      </div>`;
-    el.appendChild(div);
+function renderRst(){
+  const el=document.getElementById('rst');el.innerHTML='';
+  [{k:'garden',ko:'텃밭',en:'Garden',e:'🌱'},{k:'sign',ko:'간판',en:'Sign',e:'🪧'},
+   {k:'table',ko:'테이블',en:'Table',e:'🪑'},{k:'kitchen',ko:'주방',en:'Kitchen',e:'👨‍🍳'},
+   {k:'interior',ko:'인테리어',en:'Interior',e:'🎨'}].forEach(u=>{
+    const lv=S.ups[u.k];
+    el.innerHTML+=`<div class="rs"><div class="rsl">${u.e} ${S.lang==='ko'?u.ko:u.en}</div><div class="rsv">${'★'.repeat(lv)}${'☆'.repeat(4-lv)} ${lv}/4</div></div>`;
   });
 }
 
-// ── TABS ──────────────────────────────────────────────────────────
-function switchTab(name) {
-  S.currentTab = name;
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('panel-' + name).classList.add('active');
-  const idx = ['board','restaurant','quests','upgrades'].indexOf(name);
-  document.querySelectorAll('.tab')[idx].classList.add('active');
-
-  if (name === 'restaurant') {
-    drawRestaurant();
-    renderRestStats();
-  }
-  if (name === 'upgrades') renderUpgrades();
-  if (name === 'quests') renderQuests();
+// ── TABS ───────────────────────────────────────────────────────────
+function goTab(name){
+  S.tab=name;
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('pane-'+name).classList.add('on');
+  ['board','story','rest','up'].forEach((n,i)=>{if(n===name)document.querySelectorAll('.tab')[i]?.classList.add('on');});
+  if(name==='rest'){drawRest();renderRst();}
+  if(name==='up')renderUps();
+  if(name==='story')renderStory();
+  if(name==='board'){renderBanner();renderLeg();}
+}
+function toggleLang(){S.lang=S.lang==='ko'?'en':'ko';save();renderAll();}
+function renderAll(){
+  document.getElementById('hcoin').textContent=S.coins;
+  document.getElementById('t0').textContent=T('텃밭','Board');
+  document.getElementById('t1').textContent=T('스토리','Story');
+  document.getElementById('t2').textContent=T('음식점','Restaurant');
+  document.getElementById('t3').textContent=T('업그레이드','Upgrades');
+  document.getElementById('btip').textContent=T('같은 재료 선택 후 합치세요','Select same items to merge');
+  document.getElementById('stxt').textContent=T('재료 받기','Get Item');
+  document.getElementById('legt').textContent=T('머지 체인','Merge Chain');
+  renderXP();renderEn();buildGrid();renderBanner();renderLeg();
+  if(S.tab==='story')renderStory();
+  if(S.tab==='up')renderUps();
+  if(S.tab==='rest'){drawRest();renderRst();}
 }
 
-// ── LANGUAGE ──────────────────────────────────────────────────────
-function toggleLang() {
-  S.lang = S.lang === 'ko' ? 'en' : 'ko';
-  saveState();
+// ── INIT ───────────────────────────────────────────────────────────
+(function(){
+  load();regenEn();
+  if(S.board.every(c=>c==null))[0,2,4,6,8,10,12,14].forEach(i=>S.board[i]=1);
   renderAll();
-}
-
-function renderAll() {
-  renderBoard();
-  renderQuests();
-  renderUpgrades();
-  renderRestStats();
-  renderXPBar();
-  document.getElementById('coinVal').textContent = S.coins;
-
-  const L = S.lang === 'ko';
-  document.getElementById('boardHint').textContent = L
-    ? '재료를 선택하고 같은 종류와 합치세요!'
-    : 'Select an item and tap the same type to merge!';
-  document.getElementById('spawnBtnTxt').textContent = L ? '재료 받기' : 'Get Item';
-  document.getElementById('tab0').textContent = L ? '머지보드' : 'Board';
-  document.getElementById('tab1').textContent = L ? '음식점' : 'Restaurant';
-  document.getElementById('tab2').textContent = L ? '퀘스트' : 'Quests';
-  document.getElementById('tab3').textContent = L ? '업그레이드' : 'Upgrades';
-  document.getElementById('legendTitle').textContent = L ? '머지 체인' : 'Merge Chain';
-
-  if (S.currentTab === 'restaurant') {
-    drawRestaurant();
-    renderRestStats();
-  }
-}
-
-// ── INIT ──────────────────────────────────────────────────────────
-function init() {
-  loadState();
-
-  // Seed board if empty
-  if (S.board.every(c => c === null)) {
-    const slots = [0,2,4,6,8,10,12,14];
-    slots.forEach(i => { S.board[i] = 1; });
-  }
-
-  renderAll();
-}
-
-init();
+})();
 </script>
 </body>
 </html>
