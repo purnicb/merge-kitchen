@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>🌱 텃밭 키친 · Garden Kitchen</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -23,7 +23,7 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
 .gtit{font-size:1.2em;font-weight:900;color:var(--pri);letter-spacing:-.3px}
 .gtit em{font-size:.67em;font-weight:400;font-style:normal;color:var(--txt2);margin-left:4px}
 .lbtn{background:var(--s3);border:1px solid var(--pri);color:var(--pri);
-  padding:3px 9px;border-radius:9px;cursor:pointer;font-size:.77em;font-weight:700}
+  padding:3px 9px;border-radius:9px;cursor:pointer;font-size:.77em;font-weight:700;touch-action:manipulation}
 .hdr2{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .hcoin{display:flex;align-items:center;gap:3px;font-size:.84em;font-weight:700;color:var(--gold)}
 .xpg{flex:1;min-width:90px;display:flex;align-items:center;gap:5px}
@@ -39,7 +39,7 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
 .tabs{display:flex;background:var(--s1);border-bottom:1px solid var(--bdr);
   position:sticky;top:65px;z-index:99}
 .tab{flex:1;padding:8px 3px;text-align:center;cursor:pointer;
-  font-size:.68em;color:var(--txt2);border-bottom:3px solid transparent;transition:all .2s}
+  font-size:.68em;color:var(--txt2);border-bottom:3px solid transparent;transition:all .2s;touch-action:manipulation}
 .tico{font-size:1.3em;display:block}
 .tab.on{color:var(--pri);border-bottom-color:var(--pri);background:var(--bg)}
 .tab:hover:not(.on){color:var(--txt);background:var(--s2)}
@@ -72,7 +72,7 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
 .sbtn{background:linear-gradient(135deg,#2a6010,#5aaa20);border:none;color:#fff;
   padding:8px 14px;border-radius:15px;cursor:pointer;font-size:.86em;font-weight:900;
   box-shadow:0 3px 10px rgba(50,140,10,.4);transition:transform .12s,opacity .15s;
-  white-space:nowrap;display:flex;align-items:center;gap:5px}
+  white-space:nowrap;display:flex;align-items:center;gap:5px;touch-action:manipulation}
 .sbtn:hover{transform:scale(1.04)}.sbtn:active{transform:scale(.93)}
 .sbtn:disabled{opacity:.35;cursor:not-allowed;transform:none}
 
@@ -271,7 +271,7 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
       <span class="xpt" id="xpt">0/300</span>
     </div>
     <div class="lvc" id="lvc">Lv.1</div>
-    <div class="enc">⚡<span id="enval">7</span>/7<span class="etm" id="etm"></span></div>
+    <div class="enc">⚡<span id="enval">20</span>/20<span class="etm" id="etm"></span></div>
   </div>
 </div>
 
@@ -344,7 +344,7 @@ const LV_NM={
   ko:['텃밭 초보','새싹 농부','텃밭 농부','요리 견습생','요리사','수석 셰프','마스터 셰프'],
   en:['Garden Novice','Sprout Farmer','Garden Farmer','Cook Apprentice','Cook','Head Chef','Master Chef']
 };
-const EN_MAX=7, EN_SEC=90;
+const EN_MAX=20, EN_SEC=45;
 
 // ── GARDEN SPAWN TABLE ─────────────────────────────────────────────
 // garden upgrade level → [T1 weight, T2 weight, T3 weight, T4 weight]
