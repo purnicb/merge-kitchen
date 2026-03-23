@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🍳 머지 키친 · Merge Kitchen</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Segoe UI', sans-serif;
+  background: #1a0e00;
+  color: #f0e0c0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  user-select: none;
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, #2a1200 0%, #3d1f00 100%);
+  padding: 10px 14px 8px;
+  border-bottom: 2px solid #c87000;
+  position: sticky; top: 0; z-index: 100;
+}
+.header-top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px;
+}
+.title { font-size: 1.25em; font-weight: 900; color: #ffaa00; letter-spacing: -0.5px; }
+.title span { color: #fff; font-weight: 400; font-size: 0.7em; margin-left: 4px; }
+.lang-btn {
+  background: #3d1f00; border: 1px solid #c87000; color: #ffaa00;
+  padding: 4px 10px; border-radius: 12px; cursor: pointer; font-size: 0.8em;
+  font-weight: bold; transition: background 0.2s;
+}
+.lang-btn:hover { background: #5a2e00; }
+.stats-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.stat { display: flex; align-items: center; gap: 4px; font-size: 0.85em; }
+.stat-val { font-weight: 900; color: #ffd700; }
+.xp-wrap { flex: 1; min-width: 100px; display: flex; align-items: center; gap: 6px; }
+.xp-track {
+  flex: 1; background: #1a0a00; height: 10px; border-radius: 5px;
+  overflow: hidden; border: 1px solid #4a2800;
+}
+.xp-fill {
+  height: 100%; background: linear-gradient(90deg, #00bb55, #00ff77);
+  border-radius: 5px; transition: width 0.5s ease;
+}
+.lv-badge {
+  background: linear-gradient(135deg, #c87000, #ffaa00);
+  color: #1a0a00; font-size: 0.75em; font-weight: 900;
+  padding: 2px 7px; border-radius: 8px; white-space: nowrap;
+}
+
+/* ── TABS ── */
+.tabs {
+  display: flex; background: #2a1200;
+  border-bottom: 1px solid #3d1f00;
+  position: sticky; top: 68px; z-index: 99;
+}
+.tab {
+  flex: 1; padding: 11px 4px; text-align: center; cursor: pointer;
+  font-size: 0.78em; color: #7a5030; border-bottom: 3px solid transparent;
+  transition: all 0.2s; line-height: 1.3;
+}
+.tab .tab-icon { font-size: 1.3em; display: block; }
+.tab.active { color: #ffaa00; border-bottom-color: #ffaa00; background: #1a0e00; }
+.tab:hover:not(.active) { color: #c08050; background: #321800; }
+
+/* ── CONTENT ── */
+.content { padding: 12px; max-width: 580px; margin: 0 auto; padding-bottom: 30px; }
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── MERGE BOARD ── */
+.board-top {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10px; gap: 8px;
+}
+.board-hint { font-size: 0.75em; color: #7a5030; }
+.spawn-btn {
+  background: linear-gradient(135deg, #e05500, #ff7700);
+  border: none; color: #fff; padding: 9px 18px; border-radius: 18px;
+  cursor: pointer; font-size: 0.9em; font-weight: 900;
+  box-shadow: 0 3px 12px rgba(230,85,0,0.45);
+  transition: transform 0.12s, box-shadow 0.12s; white-space: nowrap;
+}
+.spawn-btn:hover { transform: scale(1.04); box-shadow: 0 5px 16px rgba(230,85,0,0.6); }
+.spawn-btn:active { transform: scale(0.95); }
+
+.board {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 5px; background: #2a1200; padding: 8px;
+  border-radius: 16px; border: 2px solid #4a2800;
+}
+.cell {
+  aspect-ratio: 1; background: #1a0a00; border-radius: 10px;
+  border: 2px solid #3a1800; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  cursor: pointer; transition: border-color 0.15s, background 0.15s;
+  position: relative; overflow: hidden; touch-action: manipulation;
+}
+.cell:hover { border-color: #6a3a18; background: #221000; }
+.cell.selected {
+  border-color: #ffaa00; background: #3a1800;
+  animation: sel-pulse 0.9s infinite;
+}
+@keyframes sel-pulse {
+  0%,100% { box-shadow: 0 0 10px rgba(255,170,0,0.5); }
+  50%      { box-shadow: 0 0 18px rgba(255,170,0,0.85); }
+}
+@keyframes pop-in {
+  0%   { transform: scale(0.2); opacity: 0; }
+  65%  { transform: scale(1.25); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes merge-flash {
+  0%   { transform: scale(0.3) rotate(-15deg); opacity: 0; }
+  60%  { transform: scale(1.3) rotate(5deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.cell-emoji { font-size: 1.75em; line-height: 1; }
+.cell-name { font-size: 0.5em; color: #9a7050; margin-top: 1px; text-align: center; }
+.cell.popping  .cell-emoji { animation: pop-in 0.35s ease; }
+.cell.merging  .cell-emoji { animation: merge-flash 0.4s ease; }
+.tier-pip {
+  position: absolute; top: 3px; right: 3px;
+  background: rgba(0,0,0,0.55); color: #ffd700;
+  font-size: 0.48em; padding: 1px 4px; border-radius: 4px; font-weight: 900;
+}
+
+/* legend */
+.legend {
+  margin-top: 9px; background: #2a1200; border-radius: 10px;
+  padding: 8px 10px; border: 1px solid #3a1800;
+}
+.legend-title { font-size: 0.7em; color: #7a5030; margin-bottom: 5px; }
+.legend-row { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 0.72em; }
+.leg-item { display: flex; align-items: center; gap: 3px; }
+.leg-arrow { color: #ffaa00; font-weight: 900; padding: 0 2px; }
+
+/* ── RESTAURANT CANVAS ── */
+.restaurant-wrap { position: relative; }
+#restaurantCanvas {
+  width: 100%; max-width: 556px; border-radius: 14px;
+  border: 2px solid #4a2800; display: block; margin: 0 auto;
+}
+.rest-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px;
+}
+.rest-stat {
+  background: #2a1200; border-radius: 8px; padding: 8px 10px;
+  border: 1px solid #3a1800;
+}
+.rest-stat-label { font-size: 0.72em; color: #7a5030; }
+.rest-stat-val { font-size: 0.9em; font-weight: 900; color: #ffd700; }
+
+/* ── QUESTS ── */
+.quest-list { display: flex; flex-direction: column; gap: 8px; }
+.quest-card {
+  background: #2a1200; border-radius: 12px; padding: 12px;
+  border: 2px solid #3a1800; transition: border-color 0.25s;
+}
+.quest-card.done  { border-color: #008833; background: #001a0a; }
+.quest-card.claimed { opacity: 0.45; }
+.quest-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 7px; }
+.quest-name { font-weight: 700; font-size: 0.9em; }
+.quest-rewards { display: flex; gap: 8px; font-size: 0.78em; }
+.rw-c { color: #ffd700; } .rw-x { color: #00ee88; }
+.quest-bar-bg { background: #1a0a00; height: 7px; border-radius: 4px; overflow: hidden; margin-bottom: 4px; }
+.quest-bar-fill {
+  height: 100%; background: linear-gradient(90deg, #e05500, #ffaa00);
+  border-radius: 4px; transition: width 0.4s ease;
+}
+.quest-card.done .quest-bar-fill { background: linear-gradient(90deg, #008833, #00cc55); }
+.quest-prog-txt { font-size: 0.7em; color: #7a5030; }
+.claim-btn {
+  margin-top: 8px; width: 100%;
+  background: linear-gradient(135deg, #007722, #00aa44);
+  border: none; color: #fff; padding: 7px; border-radius: 9px;
+  cursor: pointer; font-size: 0.85em; font-weight: 900;
+  transition: opacity 0.15s;
+}
+.claim-btn:hover { opacity: 0.88; }
+
+/* ── UPGRADES ── */
+.up-grid { display: flex; flex-direction: column; gap: 10px; }
+.up-card {
+  background: #2a1200; border-radius: 14px; padding: 13px;
+  border: 1px solid #3a1800;
+}
+.up-card-head {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+}
+.up-icon { font-size: 1.6em; }
+.up-name { font-weight: 900; font-size: 0.95em; }
+.up-level { font-size: 0.75em; color: #7a5030; }
+.up-dots { display: flex; gap: 5px; margin-bottom: 7px; }
+.up-dot {
+  flex: 1; height: 7px; border-radius: 4px;
+  background: #1a0a00; border: 1px solid #4a2800;
+  transition: all 0.3s;
+}
+.up-dot.lit { background: linear-gradient(90deg, #e05500, #ffd700); border-color: #ffaa00; }
+.up-desc { font-size: 0.78em; color: #9a7050; margin-bottom: 9px; min-height: 16px; }
+.up-btn {
+  width: 100%; border: none; color: #fff; padding: 10px; border-radius: 10px;
+  cursor: pointer; font-size: 0.88em; font-weight: 900; transition: all 0.2s;
+  background: linear-gradient(135deg, #b86a00, #ff9900);
+}
+.up-btn:hover:not(:disabled) { transform: scale(1.02); }
+.up-btn:disabled { background: #2e2520; color: #6a5040; cursor: not-allowed; transform: none; }
+.up-btn.maxed { background: linear-gradient(135deg, #004a22, #007733); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: #333; color: #fff; padding: 9px 20px; border-radius: 18px;
+  font-size: 0.88em; z-index: 999; pointer-events: none;
+  transition: transform 0.28s ease, opacity 0.28s;
+  white-space: nowrap; box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+  max-width: 90vw; text-align: center;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.ok   { background: linear-gradient(135deg, #005522, #008844); }
+.toast.err  { background: linear-gradient(135deg, #440000, #880000); }
+.toast.gold { background: linear-gradient(135deg, #553300, #997700); }
+
+/* ── LEVEL-UP MODAL ── */
+.modal-bg {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.82); z-index: 500;
+  justify-content: center; align-items: center;
+}
+.modal-bg.show { display: flex; }
+.modal {
+  background: linear-gradient(135deg, #2a1200, #3d1f00);
+  border: 3px solid #ffd700; border-radius: 22px; padding: 30px 28px;
+  text-align: center; animation: modal-pop 0.4s ease;
+  max-width: 300px; width: 90%;
+}
+@keyframes modal-pop {
+  0%   { transform: scale(0.4) rotate(-8deg); opacity: 0; }
+  70%  { transform: scale(1.06); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.modal-emoji { font-size: 3.2em; margin-bottom: 10px; }
+.modal-title { font-size: 1.7em; font-weight: 900; color: #ffd700; margin-bottom: 6px; }
+.modal-sub { color: #c0a080; margin-bottom: 18px; font-size: 0.9em; }
+.modal-btn {
+  background: linear-gradient(135deg, #b86a00, #ff9900);
+  border: none; color: #fff; padding: 11px 28px; border-radius: 12px;
+  cursor: pointer; font-size: 0.95em; font-weight: 900;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="title">🍳 머지 키친 <span>Merge Kitchen</span></div>
+    <button class="lang-btn" onclick="toggleLang()">한/EN</button>
+  </div>
+  <div class="stats-bar">
+    <div class="stat">🪙 <span class="stat-val" id="coinVal">50</span></div>
+    <div class="xp-wrap">
+      <div class="xp-track"><div class="xp-fill" id="xpFill" style="width:0%"></div></div>
+      <span id="xpLabel" style="font-size:0.72em;color:#7a5030">0/200 XP</span>
+    </div>
+    <div class="lv-badge" id="lvBadge">Lv.1</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('board')">
+    <span class="tab-icon">🍽️</span>
+    <span id="tab0">머지보드</span>
+  </div>
+  <div class="tab" onclick="switchTab('restaurant')">
+    <span class="tab-icon">🏪</span>
+    <span id="tab1">음식점</span>
+  </div>
+  <div class="tab" onclick="switchTab('quests')">
+    <span class="tab-icon">📋</span>
+    <span id="tab2">퀘스트</span>
+  </div>
+  <div class="tab" onclick="switchTab('upgrades')">
+    <span class="tab-icon">⬆️</span>
+    <span id="tab3">업그레이드</span>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- MERGE BOARD PANEL -->
+  <div class="panel active" id="panel-board">
+    <div class="board-top">
+      <div class="board-hint" id="boardHint">재료를 선택하고 같은 종류와 합치세요!</div>
+      <button class="spawn-btn" onclick="spawnItem()">
+        🎲 <span id="spawnBtnTxt">재료 받기</span>
+      </button>
+    </div>
+    <div class="board" id="board"></div>
+    <div class="legend">
+      <div class="legend-title" id="legendTitle">머지 체인 · Merge Chain</div>
+      <div class="legend-row" id="legendRow"></div>
+    </div>
+  </div>
+
+  <!-- RESTAURANT PANEL -->
+  <div class="panel" id="panel-restaurant">
+    <canvas id="restaurantCanvas" width="556" height="340"></canvas>
+    <div class="rest-stats" id="restStats"></div>
+  </div>
+
+  <!-- QUESTS PANEL -->
+  <div class="panel" id="panel-quests">
+    <div class="quest-list" id="questList"></div>
+  </div>
+
+  <!-- UPGRADES PANEL -->
+  <div class="panel" id="panel-upgrades">
+    <div class="up-grid" id="upgradeGrid"></div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- LEVEL UP MODAL -->
+<div class="modal-bg" id="modalBg" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-emoji">🎉</div>
+    <div class="modal-title" id="modalTitle">레벨 업!</div>
+    <div class="modal-sub" id="modalSub">레벨 2 달성!</div>
+    <button class="modal-btn" onclick="closeModal()" id="modalBtn">계속하기</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ── DATA ──────────────────────────────────────────────────────────
+const ITEMS = [
+  { id:1, emoji:'🌾', ko:'밀가루', en:'Flour',      color:'#c8a84b' },
+  { id:2, emoji:'🥚', ko:'달걀',   en:'Egg',        color:'#f5d76e' },
+  { id:3, emoji:'🧈', ko:'버터',   en:'Butter',     color:'#f0b429' },
+  { id:4, emoji:'🍞', ko:'빵',     en:'Bread',      color:'#c8782a' },
+  { id:5, emoji:'🥐', ko:'크루아상',en:'Croissant', color:'#d4882e' },
+  { id:6, emoji:'🎂', ko:'케이크', en:'Cake',       color:'#e94b8a' },
+];
+// Merge XP & coin rewards per result tier
+const MERGE_REWARD = [
+  null,
+  null,
+  { xp:5,  coins:2  },  // → Egg
+  { xp:10, coins:5  },  // → Butter
+  { xp:20, coins:10 },  // → Bread
+  { xp:40, coins:20 },  // → Croissant
+  { xp:80, coins:50 },  // → Cake
+];
+const CAKE_BONUS = { xp:200, coins:200 };
+
+const LEVEL_XP = [0, 200, 600, 1200, 2500]; // XP to REACH level index+1
+const LEVEL_NAMES = {
+  ko:['견습생','주니어 셰프','셰프','수석 셰프','마스터 셰프'],
+  en:['Apprentice','Junior Chef','Chef','Head Chef','Master Chef']
+};
+
+const QUESTS = [
+  { id:1, koN:'달걀 5개 만들기',      enN:'Make 5 Eggs',        item:2, count:5,  coins:40,  xp:100 },
+  { id:2, koN:'버터 3개 만들기',      enN:'Make 3 Butter',      item:3, count:3,  coins:80,  xp:200 },
+  { id:3, koN:'빵 3개 만들기',        enN:'Make 3 Bread',       item:4, count:3,  coins:150, xp:400 },
+  { id:4, koN:'크루아상 2개 만들기',  enN:'Make 2 Croissants',  item:5, count:2,  coins:300, xp:700 },
+  { id:5, koN:'케이크 1개 만들기',    enN:'Make 1 Cake',        item:6, count:1,  coins:500, xp:1000},
+];
+
+const UPGRADES_DEF = [
+  {
+    key:'sign', koN:'간판', enN:'Sign', emoji:'🪧',
+    costs:[100,300,600],
+    descs:{
+      ko:['기본 간판','네온 간판','화려한 조명 간판'],
+      en:['Basic Sign','Neon Sign','Grand Illuminated Sign']
+    }
+  },
+  {
+    key:'table', koN:'테이블', enN:'Table', emoji:'🪑',
+    costs:[150,400,800],
+    descs:{
+      ko:['기본 테이블','고급 테이블','VIP 테이블'],
+      en:['Basic Table','Premium Table','VIP Table']
+    }
+  },
+  {
+    key:'kitchen', koN:'주방', enN:'Kitchen', emoji:'👨‍🍳',
+    costs:[200,500,1000],
+    descs:{
+      ko:['기본 주방','중급 주방','프리미엄 주방'],
+      en:['Basic Kitchen','Advanced Kitchen','Pro Kitchen']
+    }
+  },
+  {
+    key:'interior', koN:'인테리어', enN:'Interior', emoji:'🎨',
+    costs:[250,600,1200],
+    descs:{
+      ko:['기본 인테리어','세련된 인테리어','럭셔리 인테리어'],
+      en:['Basic Interior','Stylish Interior','Luxury Interior']
+    }
+  },
+];
+
+// ── STATE ─────────────────────────────────────────────────────────
+let S = {
+  board: Array(20).fill(null), // item id (1-6) or null
+  coins: 50,
+  xp: 0,
+  level: 1,
+  selected: null,            // cell index or null
+  upgrades: { sign:0, table:0, kitchen:0, interior:0 },
+  questProgress: [0,0,0,0,0],// index = quest index
+  questClaimed:  [false,false,false,false,false],
+  mergedTo: [0,0,0,0,0,0,0], // count merged to item id (index 1-6)
+  lang: 'ko',
+  currentTab: 'board',
+};
+
+function saveState() {
+  try { localStorage.setItem('mkState', JSON.stringify(S)); } catch(e) {}
+}
+function loadState() {
+  try {
+    const raw = localStorage.getItem('mkState');
+    if (raw) {
+      const saved = JSON.parse(raw);
+      Object.assign(S, saved);
+    }
+  } catch(e) {}
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────
+const T = (ko, en) => S.lang === 'ko' ? ko : en;
+
+let toastTimer = null;
+function showToast(msg, type='', dur=2200) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show ' + type;
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = 'toast'; }, dur);
+}
+
+function showModal(title, sub) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalSub').textContent = sub;
+  document.getElementById('modalBtn').textContent = T('계속하기','Continue');
+  document.getElementById('modalBg').classList.add('show');
+}
+function closeModal() {
+  document.getElementById('modalBg').classList.remove('show');
+}
+
+// ── COINS / XP ────────────────────────────────────────────────────
+function addCoins(n) {
+  S.coins += n;
+  document.getElementById('coinVal').textContent = S.coins;
+}
+function spendCoins(n) {
+  if (S.coins < n) return false;
+  S.coins -= n;
+  document.getElementById('coinVal').textContent = S.coins;
+  return true;
+}
+
+function addXP(n) {
+  if (S.level >= 5) return;
+  S.xp += n;
+  checkLevelUp();
+  renderXPBar();
+}
+function checkLevelUp() {
+  while (S.level < 5 && S.xp >= LEVEL_XP[S.level]) {
+    S.level++;
+    showModal(
+      T('레벨 업! 🎉', 'Level Up! 🎉'),
+      T(`${S.level}레벨 달성! (${LEVEL_NAMES.ko[S.level-1]})`,
+        `Reached Level ${S.level}! (${LEVEL_NAMES.en[S.level-1]})`)
+    );
+    saveState();
+    renderUpgrades();
+    if (S.currentTab === 'restaurant') drawRestaurant();
+  }
+}
+function renderXPBar() {
+  const lv = S.level;
+  if (lv >= 5) {
+    document.getElementById('xpFill').style.width = '100%';
+    document.getElementById('xpLabel').textContent = 'MAX';
+    document.getElementById('lvBadge').textContent = `Lv.5 ✨`;
+    return;
+  }
+  const prev = lv > 1 ? LEVEL_XP[lv-1] : 0;
+  const next = LEVEL_XP[lv];
+  const pct = Math.min(100, ((S.xp - prev) / (next - prev)) * 100);
+  document.getElementById('xpFill').style.width = pct + '%';
+  document.getElementById('xpLabel').textContent = `${S.xp}/${next} XP`;
+  document.getElementById('lvBadge').textContent = `Lv.${lv}`;
+}
+
+// ── BOARD ─────────────────────────────────────────────────────────
+function emptyIndices() {
+  return S.board.map((v,i) => v===null ? i : -1).filter(i=>i>=0);
+}
+function spawnItem() {
+  const empties = emptyIndices();
+  if (empties.length === 0) {
+    showToast(T('보드가 가득 찼어요! 합치거나 이동해보세요.','Board is full! Merge or move items.'), 'err');
+    return;
+  }
+  const idx = empties[Math.floor(Math.random() * empties.length)];
+  S.board[idx] = 1; // always spawn Flour
+  renderCell(idx, true);
+  saveState();
+}
+
+function onCellClick(idx) {
+  const item = S.board[idx];
+
+  // nothing selected yet
+  if (S.selected === null) {
+    if (item === null) return; // click empty, nothing selected
+    S.selected = idx;
+    highlightSelected();
+    return;
+  }
+
+  // same cell → deselect
+  if (S.selected === idx) {
+    S.selected = null;
+    clearHighlight();
+    return;
+  }
+
+  const selItem = S.board[S.selected];
+
+  // click empty cell → move
+  if (item === null) {
+    S.board[idx] = selItem;
+    S.board[S.selected] = null;
+    renderCell(S.selected, false);
+    renderCell(idx, true);
+    S.selected = null;
+    clearHighlight();
+    saveState();
+    return;
+  }
+
+  // same item → merge
+  if (item === selItem) {
+    const newTier = selItem + 1;
+    if (newTier > 6) {
+      // Two cakes merge → big bonus
+      S.board[S.selected] = null;
+      S.board[idx] = null;
+      renderCell(S.selected, false);
+      renderCell(idx, false);
+      S.selected = null;
+      clearHighlight();
+      addCoins(CAKE_BONUS.coins);
+      addXP(CAKE_BONUS.xp);
+      showToast(T(`🎂×2 합치기! +${CAKE_BONUS.coins}🪙 +${CAKE_BONUS.xp}XP`,
+                  `🎂×2 Merged! +${CAKE_BONUS.coins}🪙 +${CAKE_BONUS.xp}XP`), 'gold', 3000);
+      saveState();
+      return;
+    }
+    S.board[S.selected] = null;
+    S.board[idx] = newTier;
+    S.mergedTo[newTier]++;
+    renderCell(S.selected, false);
+    const cellEl = renderCell(idx, false);
+    if (cellEl) { cellEl.classList.add('merging'); setTimeout(()=>cellEl.classList.remove('merging'),500); }
+    S.selected = null;
+    clearHighlight();
+
+    // rewards
+    const rw = MERGE_REWARD[newTier];
+    if (rw) {
+      addCoins(rw.coins);
+      addXP(rw.xp);
+      showToast(
+        T(`${ITEMS[newTier-1].emoji} ${ITEMS[newTier-1].ko} 완성! +${rw.coins}🪙 +${rw.xp}XP`,
+          `${ITEMS[newTier-1].emoji} ${ITEMS[newTier-1].en} made! +${rw.coins}🪙 +${rw.xp}XP`),
+        'ok'
+      );
+    }
+
+    updateQuestProgress(newTier);
+    saveState();
+    return;
+  }
+
+  // different item selected → switch selection
+  S.selected = idx;
+  highlightSelected();
+}
+
+function highlightSelected() {
+  document.querySelectorAll('.cell').forEach((el, i) => {
+    el.classList.toggle('selected', i === S.selected);
+  });
+}
+function clearHighlight() {
+  document.querySelectorAll('.cell').forEach(el => el.classList.remove('selected'));
+}
+
+function renderCell(idx, animate) {
+  const cells = document.querySelectorAll('.cell');
+  if (!cells[idx]) return null;
+  const el = cells[idx];
+  const item = S.board[idx];
+  if (item === null) {
+    el.innerHTML = '';
+    el.classList.remove('selected');
+  } else {
+    const it = ITEMS[item-1];
+    el.innerHTML = `
+      <div class="cell-emoji">${it.emoji}</div>
+      <div class="cell-name">${S.lang==='ko'?it.ko:it.en}</div>
+      <div class="tier-pip">T${item}</div>`;
+    if (animate) {
+      el.classList.add('popping');
+      setTimeout(() => el.classList.remove('popping'), 400);
+    }
+    if (idx === S.selected) el.classList.add('selected');
+    else el.classList.remove('selected');
+  }
+  return el;
+}
+
+function renderBoard() {
+  const board = document.getElementById('board');
+  board.innerHTML = '';
+  for (let i = 0; i < 20; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.onclick = () => onCellClick(i);
+    board.appendChild(cell);
+    renderCell(i, false);
+  }
+  renderLegend();
+}
+
+function renderLegend() {
+  const row = document.getElementById('legendRow');
+  row.innerHTML = '';
+  ITEMS.forEach((it, idx) => {
+    const span = document.createElement('span');
+    span.className = 'leg-item';
+    span.textContent = it.emoji + ' ' + (S.lang==='ko'?it.ko:it.en);
+    row.appendChild(span);
+    if (idx < ITEMS.length-1) {
+      const arr = document.createElement('span');
+      arr.className = 'leg-arrow'; arr.textContent = '→';
+      row.appendChild(arr);
+    }
+  });
+}
+
+// ── QUESTS ────────────────────────────────────────────────────────
+function updateQuestProgress(mergedItemId) {
+  QUESTS.forEach((q, qi) => {
+    if (q.item === mergedItemId && !S.questClaimed[qi]) {
+      S.questProgress[qi] = Math.min(S.questProgress[qi] + 1, q.count);
+    }
+  });
+  renderQuests();
+}
+
+function claimQuest(qi) {
+  const q = QUESTS[qi];
+  if (S.questProgress[qi] < q.count) return;
+  if (S.questClaimed[qi]) return;
+  S.questClaimed[qi] = true;
+  addCoins(q.coins);
+  addXP(q.xp);
+  showToast(T(`퀘스트 완료! +${q.coins}🪙 +${q.xp}XP`, `Quest done! +${q.coins}🪙 +${q.xp}XP`), 'ok', 2800);
+  saveState();
+  renderQuests();
+}
+
+function renderQuests() {
+  const list = document.getElementById('questList');
+  list.innerHTML = '';
+  QUESTS.forEach((q, qi) => {
+    const prog = S.questProgress[qi];
+    const done = prog >= q.count;
+    const claimed = S.questClaimed[qi];
+    const pct = Math.min(100, (prog / q.count) * 100);
+
+    const card = document.createElement('div');
+    card.className = 'quest-card' + (done ? ' done' : '') + (claimed ? ' claimed' : '');
+    card.innerHTML = `
+      <div class="quest-head">
+        <div class="quest-name">${ITEMS[q.item-1].emoji} ${S.lang==='ko'?q.koN:q.enN}</div>
+        <div class="quest-rewards">
+          <span class="rw-c">+${q.coins}🪙</span>
+          <span class="rw-x">+${q.xp}XP</span>
+        </div>
+      </div>
+      <div class="quest-bar-bg"><div class="quest-bar-fill" style="width:${pct}%"></div></div>
+      <div class="quest-prog-txt">${prog} / ${q.count}
+        ${done&&!claimed ? (S.lang==='ko'?' ✅ 완료!':' ✅ Done!') : ''}
+        ${claimed ? (S.lang==='ko'?' 🏆 수령완료':' 🏆 Claimed') : ''}
+      </div>
+      ${done && !claimed ? `<button class="claim-btn" onclick="claimQuest(${qi})">${S.lang==='ko'?'보상 수령':'Claim Reward'}</button>` : ''}
+    `;
+    list.appendChild(card);
+  });
+}
+
+// ── UPGRADES ─────────────────────────────────────────────────────
+function purchaseUpgrade(key) {
+  const def = UPGRADES_DEF.find(u => u.key === key);
+  const cur = S.upgrades[key];
+  if (cur >= 3) return;
+  const cost = def.costs[cur];
+  if (!spendCoins(cost)) {
+    showToast(T(`코인이 부족해요! ${cost}🪙 필요`, `Need ${cost}🪙 coins!`), 'err');
+    return;
+  }
+  S.upgrades[key]++;
+  saveState();
+  renderUpgrades();
+  if (S.currentTab === 'restaurant') drawRestaurant();
+  renderRestStats();
+  showToast(
+    T(`${def.koN} ${S.upgrades[key]}단계 업그레이드!`, `${def.enN} upgraded to level ${S.upgrades[key]}!`),
+    'gold', 2500
+  );
+}
+
+function renderUpgrades() {
+  const grid = document.getElementById('upgradeGrid');
+  grid.innerHTML = '';
+  UPGRADES_DEF.forEach(def => {
+    const cur = S.upgrades[def.key];
+    const maxed = cur >= 3;
+    const cost = maxed ? null : def.costs[cur];
+    const canAfford = cost !== null && S.coins >= cost;
+    const desc = maxed
+      ? T('최고 등급 달성! 🏆', 'Max level reached! 🏆')
+      : (S.lang==='ko' ? def.descs.ko[cur] : def.descs.en[cur]);
+
+    const card = document.createElement('div');
+    card.className = 'up-card';
+
+    const dots = [0,1,2].map(i =>
+      `<div class="up-dot${i < cur ? ' lit' : ''}"></div>`
+    ).join('');
+
+    let btnHtml;
+    if (maxed) {
+      btnHtml = `<button class="up-btn maxed" disabled>${T('최고 등급','Max Level')} ✨</button>`;
+    } else {
+      btnHtml = `<button class="up-btn${!canAfford?' ':''}" onclick="purchaseUpgrade('${def.key}')" ${!canAfford?'disabled':''}>
+        ${T('업그레이드','Upgrade')} — ${cost}🪙
+      </button>`;
+    }
+
+    card.innerHTML = `
+      <div class="up-card-head">
+        <div class="up-icon">${def.emoji}</div>
+        <div>
+          <div class="up-name">${S.lang==='ko'?def.koN:def.enN}</div>
+          <div class="up-level">${T('현재','Current')} ${cur}/3</div>
+        </div>
+      </div>
+      <div class="up-dots">${dots}</div>
+      <div class="up-desc">${T('다음 단계','Next')}: ${desc}</div>
+      ${btnHtml}
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// ── RESTAURANT CANVAS ─────────────────────────────────────────────
+function drawRestaurant() {
+  const canvas = document.getElementById('restaurantCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+
+  const sig = S.upgrades.sign;
+  const tbl = S.upgrades.table;
+  const kit = S.upgrades.kitchen;
+  const itr = S.upgrades.interior;
+
+  // ── Background ──
+  const bgPalette = [
+    ['#1a0a00','#2d1500'],
+    ['#1a1a30','#2d2050'],
+    ['#0d2240','#1a3a6a'],
+    ['#200030','#3a0060'],
+  ];
+  const [bg1, bg2] = bgPalette[itr];
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, bg1); bg.addColorStop(1, bg2);
+  ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+
+  // Wallpaper
+  if (itr >= 1) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.lineWidth = 1;
+    for (let y = 18; y < H * 0.62; y += 28) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+  }
+  if (itr >= 2) {
+    // Diamond wallpaper
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+    for (let x = 0; x < W; x += 36) {
+      for (let y = 0; y < H * 0.62; y += 36) {
+        ctx.beginPath();
+        ctx.moveTo(x + 18, y); ctx.lineTo(x + 36, y + 18);
+        ctx.lineTo(x + 18, y + 36); ctx.lineTo(x, y + 18);
+        ctx.closePath(); ctx.stroke();
+      }
+    }
+  }
+
+  // Sconces
+  if (itr >= 2) {
+    [W * 0.18, W * 0.5, W * 0.82].forEach(lx => {
+      const ly = H * 0.22;
+      ctx.fillStyle = 'rgba(255,200,80,0.18)';
+      ctx.beginPath(); ctx.arc(lx, ly, 30, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = itr >= 3 ? '#ffd700' : '#ffbb44';
+      ctx.shadowColor = '#ffd700'; ctx.shadowBlur = 10;
+      ctx.beginPath(); ctx.arc(lx, ly, 5, 0, Math.PI * 2); ctx.fill();
+      ctx.shadowBlur = 0;
+      // sconce body
+      ctx.fillStyle = '#8a6020';
+      ctx.fillRect(lx - 5, ly, 10, 14);
+      ctx.fillRect(lx - 10, ly + 4, 20, 5);
+    });
+  }
+
+  // ── Ceiling ──
+  const ceilColor = ['#1a0a00','#251535','#102040','#1a0028'][itr];
+  ctx.fillStyle = ceilColor;
+  ctx.fillRect(0, 0, W, 12);
+
+  // ── Chandelier (itr 3) ──
+  if (itr >= 3) {
+    const cx = W / 2, cy = 56;
+    ctx.strokeStyle = '#5a4010'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(cx, 12); ctx.lineTo(cx, cy - 14); ctx.stroke();
+    // arms
+    [-50, 0, 50].forEach(dx => {
+      ctx.strokeStyle = '#7a5820'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + dx, cy + 10); ctx.stroke();
+      ctx.fillStyle = '#ffe060';
+      ctx.shadowColor = '#ffee00'; ctx.shadowBlur = 8;
+      ctx.beginPath(); ctx.arc(cx + dx, cy + 14, 5, 0, Math.PI * 2); ctx.fill();
+    });
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = '#c8881e';
+    ctx.beginPath(); ctx.arc(cx, cy, 10, 0, Math.PI * 2); ctx.fill();
+  }
+
+  // ── Floor ──
+  const floorPalette = ['#3a1a06','#50280c','#7a4a20','#c8a06a'];
+  ctx.fillStyle = floorPalette[itr];
+  const floorY = H * 0.64;
+  ctx.fillRect(0, floorY, W, H - floorY);
+
+  // Floor tiles
+  ctx.strokeStyle = 'rgba(0,0,0,0.2)'; ctx.lineWidth = 1;
+  const tileSize = itr >= 2 ? 44 : 38;
+  for (let x = 0; x < W; x += tileSize) {
+    ctx.beginPath(); ctx.moveTo(x, floorY); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let y = floorY; y < H; y += tileSize) {
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+
+  // Baseboard
+  const baseColor = ['#2a1204','#3a1e08','#5a3010','#a06030'][itr];
+  ctx.fillStyle = baseColor;
+  ctx.fillRect(0, floorY - 6, W, 6);
+
+  // ── Kitchen Counter ──
+  const kitY = H * 0.28;
+  const kitH = H * 0.12;
+  const counterColors = ['#5c2a08','#7a3a10','#9a5020','#c87030'];
+  ctx.fillStyle = counterColors[kit];
+  ctx.fillRect(0, kitY, W, kitH);
+  // Counter top
+  const topColors = ['#8a4a20','#a06030','#c08040','#e0a860'];
+  ctx.fillStyle = topColors[kit];
+  ctx.fillRect(0, kitY, W, 8);
+
+  // Kitchen window / opening
+  ctx.fillStyle = 'rgba(0,0,0,0.35)';
+  ctx.fillRect(W * 0.4, kitY + 8, W * 0.22, kitH - 8);
+
+  // Stove
+  if (kit >= 1) {
+    ctx.fillStyle = '#555'; ctx.fillRect(W*0.06, kitY+10, 66, 26);
+    const burnerC = kit >= 2 ? '#ff4400' : '#cc2200';
+    [[W*0.09,kitY+18],[W*0.14,kitY+18],[W*0.09,kitY+27],[W*0.14,kitY+27]].forEach(([bx,by])=>{
+      ctx.strokeStyle = burnerC; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.arc(bx, by, 5, 0, Math.PI*2); ctx.stroke();
+    });
+  }
+  // Fridge
+  if (kit >= 2) {
+    ctx.fillStyle = '#c8c8c8'; ctx.fillRect(W*0.75, kitY+4, 38, kitH-4);
+    ctx.strokeStyle = '#888'; ctx.lineWidth = 1;
+    ctx.strokeRect(W*0.77, kitY+6, 34, (kitH-10)*0.45);
+    ctx.strokeRect(W*0.77, kitY+6+(kitH-10)*0.47, 34, (kitH-10)*0.48);
+    ctx.fillStyle = '#777'; ctx.beginPath();
+    ctx.arc(W*0.77+2, kitY+6+(kitH-10)*0.225, 2, 0, Math.PI*2); ctx.fill();
+    ctx.arc(W*0.77+2, kitY+6+(kitH-10)*0.68, 2, 0, Math.PI*2); ctx.fill();
+  }
+  // Hood
+  if (kit >= 3) {
+    ctx.fillStyle = '#b0b0b0';
+    ctx.beginPath();
+    ctx.moveTo(W*0.04, kitY+4); ctx.lineTo(W*0.22, kitY+4);
+    ctx.lineTo(W*0.19, kitY - 28); ctx.lineTo(W*0.07, kitY - 28);
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = '#888'; ctx.lineWidth = 1; ctx.stroke();
+  }
+  // Pots
+  if (kit >= 1) {
+    ctx.fillStyle = '#4a3020';
+    ctx.beginPath(); ctx.arc(W*0.3, kitY+12, 10, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#d44400';
+    ctx.fillRect(W*0.3-8, kitY+5, 16, 5);
+    if (kit >= 2) {
+      ctx.fillStyle = '#226040';
+      ctx.beginPath(); ctx.arc(W*0.36, kitY+12, 8, 0, Math.PI*2); ctx.fill();
+    }
+  }
+
+  // ── Tables ──
+  const tableCount = [1,2,3,4][tbl];
+  const gap = W / (tableCount + 1);
+  const tblTopColors = ['#7a3a10','#a05020','#c8782a','#e0a85a'];
+  const clothColors  = [null,'#c03030','#2050a0','#7030a0'];
+  const ty = floorY + 10;
+
+  for (let i = 0; i < tableCount; i++) {
+    const tx = gap * (i + 1);
+
+    // Legs
+    ctx.fillStyle = '#4a2408';
+    ctx.fillRect(tx - 22, ty + 18, 7, 28);
+    ctx.fillRect(tx + 15, ty + 18, 7, 28);
+
+    // Tabletop
+    ctx.fillStyle = tblTopColors[tbl];
+    ctx.beginPath();
+    ctx.roundRect(tx - 26, ty, 52, 18, 3);
+    ctx.fill();
+
+    // Tablecloth
+    if (tbl >= 1 && clothColors[tbl]) {
+      ctx.fillStyle = clothColors[tbl];
+      ctx.globalAlpha = 0.75;
+      ctx.beginPath(); ctx.roundRect(tx - 24, ty+1, 48, 14, 2); ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+
+    // Plate
+    ctx.fillStyle = '#f8f0e0';
+    ctx.beginPath(); ctx.ellipse(tx, ty+8, 9, 6, 0, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#ff8822';
+    ctx.beginPath(); ctx.ellipse(tx, ty+8, 5, 3, 0, 0, Math.PI*2); ctx.fill();
+
+    // Candle (tbl >= 2)
+    if (tbl >= 2) {
+      ctx.fillStyle = '#f8f0e0';
+      ctx.fillRect(tx + 14, ty - 13, 5, 13);
+      ctx.fillStyle = '#ff8800';
+      ctx.shadowColor = '#ff8800'; ctx.shadowBlur = 6;
+      ctx.beginPath(); ctx.arc(tx + 16.5, ty - 15, 4, 0, Math.PI*2); ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    // Wine glass (tbl 3)
+    if (tbl >= 3) {
+      ctx.strokeStyle = '#ffffff88'; ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(tx - 14, ty - 2); ctx.lineTo(tx - 11, ty + 2);
+      ctx.moveTo(tx - 11, ty + 2); ctx.lineTo(tx - 9, ty + 2);
+      ctx.moveTo(tx - 11.5, ty); ctx.lineTo(tx - 11.5, ty - 6);
+      ctx.stroke();
+      ctx.strokeStyle = '#dd4444aa'; ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(tx - 11.5, ty - 7, 4, 0.4, Math.PI - 0.4); ctx.stroke();
+    }
+
+    // Chair
+    ctx.fillStyle = tblTopColors[Math.min(tbl, 2)];
+    ctx.fillRect(tx - 12, ty + 30, 24, 14);
+    ctx.fillRect(tx - 10, ty + 18, 5, 12);
+    ctx.fillRect(tx + 5, ty + 18, 5, 12);
+  }
+
+  // ── Plants (itr >= 1) ──
+  if (itr >= 1) {
+    [[22, H - 22], [W - 22, H - 22]].forEach(([px, py]) => {
+      ctx.fillStyle = '#7a3a10';
+      ctx.beginPath(); ctx.roundRect(px - 7, py - 14, 14, 18, 2); ctx.fill();
+      const gc = itr >= 3 ? '#1a6020' : '#2a5018';
+      ctx.fillStyle = gc;
+      ctx.beginPath(); ctx.arc(px, py - 18, 10, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = itr >= 3 ? '#2a8030' : '#3a6820';
+      ctx.beginPath(); ctx.arc(px - 8, py - 22, 7, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(px + 8, py - 22, 7, 0, Math.PI*2); ctx.fill();
+      if (itr >= 2) {
+        ctx.fillStyle = '#4aaa40';
+        ctx.beginPath(); ctx.arc(px, py - 26, 5, 0, Math.PI*2); ctx.fill();
+      }
+    });
+  }
+
+  // ── Sign ──
+  ctx.save();
+  if (sig === 0) {
+    // Plain text on wall
+    ctx.font = 'bold 15px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillStyle = 'rgba(255,255,255,0.4)';
+    ctx.fillText('🍳 MERGE KITCHEN', W / 2, 36);
+  } else if (sig === 1) {
+    // Wooden hanging sign
+    ctx.fillStyle = '#6a3008';
+    ctx.beginPath(); ctx.roundRect(W/2 - 85, 10, 170, 42, 6); ctx.fill();
+    ctx.strokeStyle = '#c87000'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.roundRect(W/2 - 85, 10, 170, 42, 6); ctx.stroke();
+    // Chains
+    ctx.strokeStyle = '#888'; ctx.lineWidth = 1.5;
+    [[W/2-60, 10],[W/2+60, 10]].forEach(([cx2,cy2])=>{
+      ctx.beginPath(); ctx.moveTo(cx2, cy2); ctx.lineTo(cx2, 5); ctx.stroke();
+    });
+    ctx.fillStyle = '#ffe8c0'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('🍳 머지 키친', W/2, 32);
+    ctx.fillStyle = '#ffaa60'; ctx.font = '10px sans-serif';
+    ctx.fillText('Merge Kitchen', W/2, 46);
+  } else if (sig === 2) {
+    // Neon sign
+    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+    ctx.beginPath(); ctx.roundRect(W/2 - 95, 8, 190, 44, 8); ctx.fill();
+
+    ctx.shadowColor = '#ff6600'; ctx.shadowBlur = 14;
+    ctx.strokeStyle = '#ff6600'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.roundRect(W/2 - 93, 10, 186, 40, 6); ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    ctx.shadowColor = '#ff8800'; ctx.shadowBlur = 10;
+    ctx.fillStyle = '#ff8800'; ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('🍳 MERGE KITCHEN', W/2, 31);
+    ctx.shadowBlur = 4; ctx.fillStyle = '#ffcc88';
+    ctx.font = '10px sans-serif'; ctx.fillText('머지 키친', W/2, 45);
+    ctx.shadowBlur = 0;
+  } else {
+    // Grand illuminated sign
+    const sgrd = ctx.createLinearGradient(W/2-105, 0, W/2+105, 0);
+    sgrd.addColorStop(0, '#3a0808'); sgrd.addColorStop(0.5, '#600010'); sgrd.addColorStop(1, '#3a0808');
+    ctx.fillStyle = sgrd;
+    ctx.beginPath(); ctx.roundRect(W/2 - 105, 5, 210, 52, 8); ctx.fill();
+
+    ctx.strokeStyle = '#ffd700'; ctx.lineWidth = 2.5;
+    ctx.shadowColor = '#ffd700'; ctx.shadowBlur = 8;
+    ctx.beginPath(); ctx.roundRect(W/2 - 105, 5, 210, 52, 8); ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    // Bulbs
+    for (let bx = W/2 - 94; bx <= W/2 + 94; bx += 18) {
+      ctx.fillStyle = '#ffff88';
+      ctx.shadowColor = '#ffff00'; ctx.shadowBlur = 7;
+      ctx.beginPath(); ctx.arc(bx, 9, 3.5, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(bx, 53, 3.5, 0, Math.PI*2); ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = '#ffd700'; ctx.font = 'bold 17px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('🍳 MERGE KITCHEN', W/2, 31);
+    ctx.fillStyle = '#ffcc88'; ctx.font = '11px sans-serif';
+    ctx.fillText('머지 키친 · Master Restaurant', W/2, 46);
+  }
+  ctx.restore();
+
+  // ── Score/level overlay ──
+  ctx.fillStyle = 'rgba(0,0,0,0.45)';
+  ctx.beginPath(); ctx.roundRect(W - 88, H - 30, 82, 22, 6); ctx.fill();
+  ctx.fillStyle = '#ffd700'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'right';
+  ctx.fillText(`Lv.${S.level} · 🪙${S.coins}`, W - 8, H - 14);
+}
+
+function renderRestStats() {
+  const el = document.getElementById('restStats');
+  el.innerHTML = '';
+  const ups = [
+    { ko:'간판', en:'Sign',     emoji:'🪧', key:'sign' },
+    { ko:'테이블', en:'Table',  emoji:'🪑', key:'table' },
+    { ko:'주방', en:'Kitchen',  emoji:'👨‍🍳', key:'kitchen' },
+    { ko:'인테리어', en:'Interior', emoji:'🎨', key:'interior' },
+  ];
+  ups.forEach(u => {
+    const lv = S.upgrades[u.key];
+    const div = document.createElement('div');
+    div.className = 'rest-stat';
+    div.innerHTML = `
+      <div class="rest-stat-label">${u.emoji} ${S.lang==='ko'?u.ko:u.en}</div>
+      <div class="rest-stat-val">
+        ${'★'.repeat(lv)}${'☆'.repeat(3-lv)} ${lv}/3
+      </div>`;
+    el.appendChild(div);
+  });
+}
+
+// ── TABS ──────────────────────────────────────────────────────────
+function switchTab(name) {
+  S.currentTab = name;
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  const idx = ['board','restaurant','quests','upgrades'].indexOf(name);
+  document.querySelectorAll('.tab')[idx].classList.add('active');
+
+  if (name === 'restaurant') {
+    drawRestaurant();
+    renderRestStats();
+  }
+  if (name === 'upgrades') renderUpgrades();
+  if (name === 'quests') renderQuests();
+}
+
+// ── LANGUAGE ──────────────────────────────────────────────────────
+function toggleLang() {
+  S.lang = S.lang === 'ko' ? 'en' : 'ko';
+  saveState();
+  renderAll();
+}
+
+function renderAll() {
+  renderBoard();
+  renderQuests();
+  renderUpgrades();
+  renderRestStats();
+  renderXPBar();
+  document.getElementById('coinVal').textContent = S.coins;
+
+  const L = S.lang === 'ko';
+  document.getElementById('boardHint').textContent = L
+    ? '재료를 선택하고 같은 종류와 합치세요!'
+    : 'Select an item and tap the same type to merge!';
+  document.getElementById('spawnBtnTxt').textContent = L ? '재료 받기' : 'Get Item';
+  document.getElementById('tab0').textContent = L ? '머지보드' : 'Board';
+  document.getElementById('tab1').textContent = L ? '음식점' : 'Restaurant';
+  document.getElementById('tab2').textContent = L ? '퀘스트' : 'Quests';
+  document.getElementById('tab3').textContent = L ? '업그레이드' : 'Upgrades';
+  document.getElementById('legendTitle').textContent = L ? '머지 체인' : 'Merge Chain';
+
+  if (S.currentTab === 'restaurant') {
+    drawRestaurant();
+    renderRestStats();
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────
+function init() {
+  loadState();
+
+  // Seed board if empty
+  if (S.board.every(c => c === null)) {
+    const slots = [0,2,4,6,8,10,12,14];
+    slots.forEach(i => { S.board[i] = 1; });
+  }
+
+  renderAll();
+}
+
+init();
+</script>
+</body>
+</html>
