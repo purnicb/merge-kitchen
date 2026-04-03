@@ -330,6 +330,21 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
   box-shadow:0 3px 10px rgba(0,48,12,.15),inset 0 1px 0 rgba(255,255,255,.2);
   backdrop-filter:blur(6px);
 }
+@media(max-width:480px){
+  .wrap{padding:8px;max-width:420px}
+  .hub-corner-tree{font-size:clamp(1.4rem,7vw,2.4rem)}
+  .hub-char-wrap{width:38px;height:62px}
+  .hub-charSprite{transform:scale(.58);margin-left:-12px;margin-bottom:-8px;width:48px;height:96px}
+  .hub-bub{min-width:min(140px,52vw);max-width:min(200px,75vw);font-size:.58em}
+  .hub-crop-zones{width:min(96%,320px);top:30px;bottom:8px;gap:8px;padding:6px 6px 56px}
+  .hub-crop-zone{flex:0 0 calc(33.33% - 8px);min-width:70px;max-width:110px}
+  .hub-tavern-wrap{right:max(10px,3vw);bottom:6px;max-width:86px;transform:translate(10px,2px) scale(.85)}
+  .hub-tavern-img{max-height:min(16vh,92px)}
+  .hub-freezer-wrap{right:calc(max(16px,4vw) + 48px);bottom:9px}
+  .hub-freezer.hub-fridge{width:26px;min-height:26px}
+  .hub-freezer-img{width:24px;height:24px}
+  .hub-freezer.hub-fridge::after{width:26px;height:9px}
+}
 @media(max-width:360px){
   .hub-crop-zone{flex:0 0 calc(33.33% - 9px);min-width:72px;max-width:108px}
 }
