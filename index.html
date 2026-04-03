@@ -330,6 +330,31 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
   box-shadow:0 3px 10px rgba(0,48,12,.15),inset 0 1px 0 rgba(255,255,255,.2);
   backdrop-filter:blur(6px);
 }
+@media(max-width:900px){
+  /* 모바일/태블릿 폭에서도 정원/오브젝트들이 너무 크게 보이지 않게 */
+  .wrap{max-width:720px}
+  .hub-corner-tree{font-size:clamp(1.4rem,6.2vw,2.4rem)}
+  .hub-crop-zones{
+    width:min(94%,330px);
+    top:34px;bottom:8px;
+    gap:9px 10px;
+    padding:7px 6px 56px;
+  }
+  .hub-crop-zone{
+    min-width:68px;
+    max-width:96px;
+    padding:5px 5px 6px;
+  }
+  .hub-char-wrap{width:40px;height:66px}
+  .hub-charSprite{transform:scale(.62);margin-left:0;margin-bottom:-6px;width:48px;height:96px}
+  .hub-bub{min-width:min(150px,55vw);max-width:min(220px,78vw);font-size:.60em}
+  .hub-tavern-wrap{right:18px;bottom:8px;max-width:92px;transform:translate(16px,2px) scale(.82)}
+  .hub-tavern-img{max-height:min(14vh,86px)}
+  .hub-freezer-wrap{right:34px;bottom:10px}
+  .hub-freezer.hub-fridge{width:26px;min-height:26px}
+  .hub-freezer-img{width:24px;height:24px}
+  .hub-freezer.hub-fridge::after{width:26px;height:9px}
+}
 @media(max-width:480px){
   .wrap{padding:8px;max-width:420px}
   .hub-corner-tree{font-size:clamp(1.4rem,7vw,2.4rem)}
@@ -349,7 +374,17 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
   .hub-freezer.hub-fridge::after{width:26px;height:9px}
 }
 @media(max-width:360px){
-  .hub-crop-zone{flex:0 0 calc(33.33% - 9px);min-width:72px;max-width:108px}
+  .hub-crop-zone{flex:0 0 calc(33.33% - 9px);min-width:64px;max-width:92px}
+  .hub-char-wrap{width:34px;height:56px}
+  /* 배경 스프라이트 셀 크기(48x96) 유지: 잘림 방지 */
+  .hub-charSprite{transform:scale(.52);margin:0;width:48px;height:96px}
+  .hub-bub{min-width:min(130px,50vw);max-width:min(190px,74vw);font-size:.54em}
+  .hub-tavern-wrap{right:10px;bottom:6px;max-width:78px;transform:scale(.74)}
+  .hub-tavern-img{max-height:min(12vh,72px)}
+  .hub-freezer-wrap{right:22px;bottom:9px}
+  .hub-freezer.hub-fridge{width:22px;min-height:22px}
+  .hub-freezer-img{width:20px;height:20px}
+  .hub-freezer.hub-fridge::after{width:24px;height:8px}
 }
 .hub-zone-head{
   font-size:.52em;font-weight:900;color:#f0ffe8;letter-spacing:.04em;margin-bottom:5px;
@@ -1414,7 +1449,10 @@ function moveCharConstrained(targetX, targetY){
   return true;
 }
 
+let _hubSkipNextWalkClickUntil=0;
 function hubWalkClick(ev){
+  // touch swipe로 이동했을 때 이어서 발생하는 click 이벤트를 무시
+  if(Date.now() < _hubSkipNextWalkClickUntil)return;
   const r=ev.currentTarget.getBoundingClientRect();
   const tx=((ev.clientX-r.left)/r.width)*100;
   const ty=((ev.clientY-r.top)/r.height)*100;
@@ -1841,6 +1879,76 @@ document.addEventListener('keydown',e=>{
   _fp.onerror=hubCharSpriteFail;
   _fp.src=FARMER_SHEET.src;
   renderAll();
+
+  // 모바일: 필드 드래그(스와이프)로 상/하/좌/우 이동
+  const field=document.getElementById('g-walk-hit');
+  if(field){
+    const step=5; // percent
+    const MOVE_TH=16; // px threshold
+    const MOVE_COOLDOWN=90; // ms
+    let activeTouchId=null;
+    let lastMoveAt=0;
+    let lastX=0,lastY=0;
+
+    const touchXY=(t)=>{
+      return {x:t.clientX,y:t.clientY};
+    };
+
+    field.addEventListener('touchstart',(ev)=>{
+      if(S.tab!=='garden')return;
+      const t=ev.changedTouches && ev.changedTouches[0];
+      if(!t)return;
+      activeTouchId=t.identifier;
+      const {x,y}=touchXY(t);
+      lastX=x;lastY=y;
+      ev.preventDefault();
+    },{passive:false});
+
+    field.addEventListener('touchmove',(ev)=>{
+      if(S.tab!=='garden')return;
+      if(activeTouchId==null)return;
+      const t=Array.from(ev.changedTouches||[]).find(tt=>tt.identifier===activeTouchId);
+      if(!t)return;
+
+      const now=Date.now();
+      if(now-lastMoveAt<MOVE_COOLDOWN)return;
+
+      const {x,y}=touchXY(t);
+      const dx=x-lastX;
+      const dy=y-lastY;
+      if(Math.abs(dx)<MOVE_TH && Math.abs(dy)<MOVE_TH)return;
+
+      lastMoveAt=now;
+
+      // 더 큰 이동 축 기준으로 방향 결정
+      let tx=S.gCharX, ty=S.gCharY, dir=S.gCharDir;
+      if(Math.abs(dx)>=Math.abs(dy)){
+        dir=dx>0?'r':'l';
+        tx=S.gCharX + (dx>0?step:-step);
+      }else{
+        dir=dy>0?'d':'u';
+        ty=S.gCharY + (dy>0?step:-step);
+      }
+      S.gCharDir=dir;
+      const ok=moveCharConstrained(tx,ty);
+      if(ok){
+        syncHubCharFull();
+        startFarmerWalkAnim();
+        save();
+      }
+
+      // 같은 방향으로 연속 이동 가능하게 기준점을 최신 위치로 갱신
+      lastX=x;lastY=y;
+      _hubSkipNextWalkClickUntil=Date.now()+450;
+      ev.preventDefault();
+    },{passive:false});
+
+    const reset=()=>{
+      activeTouchId=null;
+    };
+    field.addEventListener('touchend',reset,{passive:true});
+    field.addEventListener('touchcancel',reset,{passive:true});
+  }
 })();
 </script>
 </body>
