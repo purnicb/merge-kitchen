@@ -78,7 +78,7 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
 .sbtn:disabled{opacity:.35;cursor:not-allowed;transform:none}
 
 /* GRID — wooden board look */
-.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;padding:8px;
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;padding:8px;
   background:
     repeating-linear-gradient(90deg,transparent,transparent 38px,rgba(0,0,0,.07) 38px,rgba(0,0,0,.07) 40px),
     repeating-linear-gradient(180deg,transparent,transparent 20px,rgba(0,0,0,.04) 20px,rgba(0,0,0,.04) 22px),
@@ -333,7 +333,7 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
 @media(max-width:900px){
   /* 모바일/태블릿 폭에서도 정원/오브젝트들이 너무 크게 보이지 않게 */
   .wrap{max-width:720px}
-  /* 머지쿠킹(보드) 6x6: 한 줄 잘리는 현상 방지 */
+  /* 머지쿠킹(보드) 5x6: 한 줄 잘리는 현상 방지 */
   .grid{
     width:100%;
     gap:4px;
@@ -367,7 +367,7 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
   .hub-freezer.hub-fridge::after{width:22px;height:8px}
 }
 @media(max-width:1050px){
-  /* 990px대 화면에서도 6x6 보드가 잘리지 않게: 더 타이트하게 */
+  /* 990px대 화면에서도 5x6 보드가 잘리지 않게: 더 타이트하게 */
   .grid{
     width:100%;
     max-width:calc(100vw - 20px);
@@ -381,7 +381,7 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
 }
 @media(max-width:480px){
   .wrap{padding:8px;max-width:420px}
-  /* 6x6 보드: 화면 폭에 딱 맞게(우측 마지막 열 잘림 방지) */
+  /* 5x6 보드: 화면 폭에 딱 맞게(우측 마지막 열 잘림 방지) */
   .grid{
     width:100%;
     gap:3px;
@@ -409,7 +409,7 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
 }
 @media(max-width:360px){
   .hub-crop-zone{flex:0 0 calc(33.33% - 9px);min-width:64px;max-width:92px}
-  /* 초소형 화면에서 6x6 보드 더 타이트하게 */
+  /* 초소형 화면에서 5x6 보드 더 타이트하게 */
   .grid{
     gap:2.6px;
     padding:5px;
@@ -605,7 +605,7 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
   max-width:380px;width:100%;max-height:92vh;overflow:auto;padding:16px;box-shadow:0 12px 40px rgba(0,0,0,.6)}
 .fs-mt{font-size:1.05em;font-weight:900;color:#8cf;margin-bottom:6px}
 .fs-ms{font-size:.72em;color:var(--txt2);line-height:1.45;margin-bottom:10px}
-.fs-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-bottom:10px}
+.fs-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:10px}
 .fs-cell{aspect-ratio:1;border-radius:8px;background:rgba(0,0,0,.35);border:1px solid #3a5a78;
   display:flex;align-items:center;justify-content:center;font-size:1.15em}
 .fs-mtrow{font-size:.66em;color:var(--txt2);margin-bottom:12px;white-space:pre-wrap}
@@ -762,8 +762,8 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
 <script>
 'use strict';
 
-// ── BOARD / CHAIN (6×6, 12 tiers) ────────────────────────────────
-const BOARD_W=6,BOARD_H=6,BOARD_SIZE=BOARD_W*BOARD_H,MAX_T=12;
+// ── BOARD / CHAIN (5×6, 12 tiers) ────────────────────────────────
+const BOARD_W=5,BOARD_H=6,BOARD_SIZE=BOARD_W*BOARD_H,MAX_T=12;
 const VALID_TABS=['garden','board','story','rest','up'];
 // ── ITEMS (채소 7 → 요리 5) ───────────────────────────────────────
 const ITEMS = [
