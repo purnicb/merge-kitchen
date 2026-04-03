@@ -1888,6 +1888,7 @@ document.addEventListener('keydown',e=>{
     const MOVE_TH=16; // px threshold
     const MOVE_COOLDOWN=90; // ms
     let activeTouchId=null;
+    let swipeEnabled=false;
     let lastMoveAt=0;
     let lastX=0,lastY=0;
 
@@ -1902,12 +1903,22 @@ document.addEventListener('keydown',e=>{
       activeTouchId=t.identifier;
       const {x,y}=touchXY(t);
       lastX=x;lastY=y;
-      ev.preventDefault();
+
+      // 정원 위의 "제어 버튼"(레스토랑 문/냉동창고)을 눌렀다면
+      // 스와이프 이동 로직을 비활성화해서 click이 정상 동작하게 합니다.
+      const startEl=ev.target;
+      swipeEnabled=!!(startEl && startEl.closest && (
+        startEl.closest('.hub-tavern-door') ||
+        startEl.closest('.hub-freezer-wrap')
+      )) ? false : true;
+
+      if(swipeEnabled)ev.preventDefault();
     },{passive:false});
 
     field.addEventListener('touchmove',(ev)=>{
       if(S.tab!=='garden')return;
       if(activeTouchId==null)return;
+      if(!swipeEnabled)return;
       const t=Array.from(ev.changedTouches||[]).find(tt=>tt.identifier===activeTouchId);
       if(!t)return;
 
@@ -1946,6 +1957,7 @@ document.addEventListener('keydown',e=>{
 
     const reset=()=>{
       activeTouchId=null;
+      swipeEnabled=false;
     };
     field.addEventListener('touchend',reset,{passive:true});
     field.addEventListener('touchcancel',reset,{passive:true});
