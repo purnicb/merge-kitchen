@@ -334,15 +334,18 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
   .wrap{padding:8px;max-width:420px}
   .hub-corner-tree{font-size:clamp(1.4rem,7vw,2.4rem)}
   .hub-char-wrap{width:38px;height:62px}
-  .hub-charSprite{transform:scale(.58);margin-left:-12px;margin-bottom:-8px;width:48px;height:96px}
+  /* mobile에서 스프라이트가 밀려 화면 밖으로 나가는 문제 방지 */
+  .hub-charSprite{transform:scale(.58);margin:0;width:48px;height:96px;transform-origin:center bottom}
   .hub-bub{min-width:min(140px,52vw);max-width:min(200px,75vw);font-size:.58em}
   .hub-crop-zones{width:min(96%,320px);top:30px;bottom:8px;gap:8px;padding:6px 6px 56px}
   .hub-crop-zone{flex:0 0 calc(33.33% - 8px);min-width:70px;max-width:110px}
-  .hub-tavern-wrap{right:max(10px,3vw);bottom:6px;max-width:86px;transform:translate(10px,2px) scale(.85)}
-  .hub-tavern-img{max-height:min(16vh,92px)}
-  .hub-freezer-wrap{right:calc(max(16px,4vw) + 48px);bottom:9px}
+  /* translate 제거: PC 창이 좁아져도 화면 밖으로 밀리지 않게 */
+  .hub-tavern-wrap{right:12px;bottom:6px;max-width:86px;transform:scale(.85)}
+  .hub-tavern-img{max-height:min(16vh,92px);mix-blend-mode:normal}
+  /* right calc이 과도해져서 화면 밖으로 나갈 수 있어 값 고정 */
+  .hub-freezer-wrap{right:26px;bottom:9px}
   .hub-freezer.hub-fridge{width:26px;min-height:26px}
-  .hub-freezer-img{width:24px;height:24px}
+  .hub-freezer-img{width:24px;height:24px;mix-blend-mode:normal}
   .hub-freezer.hub-fridge::after{width:26px;height:9px}
 }
 @media(max-width:360px){
