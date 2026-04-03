@@ -366,6 +366,19 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
   .hub-freezer-img{width:20px;height:20px}
   .hub-freezer.hub-fridge::after{width:22px;height:8px}
 }
+@media(max-width:1050px){
+  /* 990px대 화면에서도 6x6 보드가 잘리지 않게: 더 타이트하게 */
+  .grid{
+    width:100%;
+    max-width:calc(100vw - 20px);
+    gap:3px;
+    padding:6px;
+    border-radius:16px;
+    border-width:3px;
+  }
+  .cell{border-radius:12px}
+  .ibub{width:58%}
+}
 @media(max-width:480px){
   .wrap{padding:8px;max-width:420px}
   /* 6x6 보드: 화면 폭에 딱 맞게(우측 마지막 열 잘림 방지) */
