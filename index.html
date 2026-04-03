@@ -348,12 +348,13 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
   .hub-char-wrap{width:40px;height:66px}
   .hub-charSprite{transform:scale(.62);margin-left:0;margin-bottom:-6px;width:48px;height:96px}
   .hub-bub{min-width:min(150px,55vw);max-width:min(220px,78vw);font-size:.60em}
-  .hub-tavern-wrap{right:18px;bottom:8px;max-width:92px;transform:translate(16px,2px) scale(.82)}
-  .hub-tavern-img{max-height:min(14vh,86px)}
-  .hub-freezer-wrap{right:34px;bottom:10px}
-  .hub-freezer.hub-fridge{width:26px;min-height:26px}
-  .hub-freezer-img{width:24px;height:24px}
-  .hub-freezer.hub-fridge::after{width:26px;height:9px}
+  /* 우측하단(트리 겹침) 줄이기: 더 작게 + 위로 */
+  .hub-tavern-wrap{right:14px;bottom:14px;max-width:86px;transform:translate(10px,0) scale(.72)}
+  .hub-tavern-img{max-height:min(12vh,72px)}
+  .hub-freezer-wrap{right:24px;bottom:16px}
+  .hub-freezer.hub-fridge{width:22px;min-height:22px}
+  .hub-freezer-img{width:20px;height:20px}
+  .hub-freezer.hub-fridge::after{width:22px;height:8px}
 }
 @media(max-width:480px){
   .wrap{padding:8px;max-width:420px}
@@ -365,13 +366,13 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
   .hub-crop-zones{width:min(96%,320px);top:30px;bottom:8px;gap:8px;padding:6px 6px 56px}
   .hub-crop-zone{flex:0 0 calc(33.33% - 8px);min-width:70px;max-width:110px}
   /* translate 제거: PC 창이 좁아져도 화면 밖으로 밀리지 않게 */
-  .hub-tavern-wrap{right:12px;bottom:6px;max-width:86px;transform:scale(.85)}
-  .hub-tavern-img{max-height:min(16vh,92px);mix-blend-mode:normal}
+  .hub-tavern-wrap{right:8px;bottom:12px;max-width:80px;transform:scale(.72)}
+  .hub-tavern-img{max-height:min(14vh,76px);mix-blend-mode:normal}
   /* right calc이 과도해져서 화면 밖으로 나갈 수 있어 값 고정 */
-  .hub-freezer-wrap{right:26px;bottom:9px}
-  .hub-freezer.hub-fridge{width:26px;min-height:26px}
-  .hub-freezer-img{width:24px;height:24px;mix-blend-mode:normal}
-  .hub-freezer.hub-fridge::after{width:26px;height:9px}
+  .hub-freezer-wrap{right:18px;bottom:14px}
+  .hub-freezer.hub-fridge{width:22px;min-height:22px}
+  .hub-freezer-img{width:20px;height:20px;mix-blend-mode:normal}
+  .hub-freezer.hub-fridge::after{width:22px;height:8px}
 }
 @media(max-width:360px){
   .hub-crop-zone{flex:0 0 calc(33.33% - 9px);min-width:64px;max-width:92px}
@@ -379,12 +380,12 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
   /* 배경 스프라이트 셀 크기(48x96) 유지: 잘림 방지 */
   .hub-charSprite{transform:scale(.52);margin:0;width:48px;height:96px}
   .hub-bub{min-width:min(130px,50vw);max-width:min(190px,74vw);font-size:.54em}
-  .hub-tavern-wrap{right:10px;bottom:6px;max-width:78px;transform:scale(.74)}
-  .hub-tavern-img{max-height:min(12vh,72px)}
-  .hub-freezer-wrap{right:22px;bottom:9px}
-  .hub-freezer.hub-fridge{width:22px;min-height:22px}
-  .hub-freezer-img{width:20px;height:20px}
-  .hub-freezer.hub-fridge::after{width:24px;height:8px}
+  .hub-tavern-wrap{right:6px;bottom:12px;max-width:70px;transform:scale(.62)}
+  .hub-tavern-img{max-height:min(10vh,56px)}
+  .hub-freezer-wrap{right:14px;bottom:12px}
+  .hub-freezer.hub-fridge{width:18px;min-height:18px}
+  .hub-freezer-img{width:16px;height:16px}
+  .hub-freezer.hub-fridge::after{width:20px;height:6px}
 }
 .hub-zone-head{
   font-size:.52em;font-weight:900;color:#f0ffe8;letter-spacing:.04em;margin-bottom:5px;
