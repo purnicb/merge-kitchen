@@ -333,6 +333,16 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
 @media(max-width:900px){
   /* 모바일/태블릿 폭에서도 정원/오브젝트들이 너무 크게 보이지 않게 */
   .wrap{max-width:720px}
+  /* 머지쿠킹(보드) 6x6: 한 줄 잘리는 현상 방지 */
+  .grid{
+    width:100%;
+    gap:4px;
+    padding:7px;
+    border-radius:16px;
+    border-width:4px;
+  }
+  .cell{border-radius:12px}
+  .ibub{width:60%}
   .hub-corner-tree{font-size:clamp(1.4rem,6.2vw,2.4rem)}
   .hub-crop-zones{
     width:min(94%,330px);
@@ -358,6 +368,16 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
 }
 @media(max-width:480px){
   .wrap{padding:8px;max-width:420px}
+  /* 6x6 보드: 화면 폭에 딱 맞게(우측 마지막 열 잘림 방지) */
+  .grid{
+    width:100%;
+    gap:3px;
+    padding:6px;
+    border-radius:15px;
+    border-width:4px;
+  }
+  .cell{border-radius:11px}
+  .ibub{width:56%}
   .hub-corner-tree{font-size:clamp(1.4rem,7vw,2.4rem)}
   .hub-char-wrap{width:38px;height:62px}
   /* mobile에서 스프라이트가 밀려 화면 밖으로 나가는 문제 방지 */
@@ -376,6 +396,15 @@ body{font-family:'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif;
 }
 @media(max-width:360px){
   .hub-crop-zone{flex:0 0 calc(33.33% - 9px);min-width:64px;max-width:92px}
+  /* 초소형 화면에서 6x6 보드 더 타이트하게 */
+  .grid{
+    gap:2.6px;
+    padding:5px;
+    border-width:3px;
+    border-radius:14px;
+  }
+  .cell{border-radius:10px}
+  .ibub{width:52%}
   .hub-char-wrap{width:34px;height:56px}
   /* 배경 스프라이트 셀 크기(48x96) 유지: 잘림 방지 */
   .hub-charSprite{transform:scale(.52);margin:0;width:48px;height:96px}
